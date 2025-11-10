@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "github-stars-button",
+  "type": "registry:ui",
+  "title": "GitHub Stars Button",
+  "description": "A beautiful button that displays your GitHub repository's star count with real-time data fetching.",
+  "dependencies": ["@radix-ui/react-icons"],
+  "registryDependencies": ["raised-button"],
+  "files": [
+    {
+      "path": "registry/new-york/ui/github-stars-button.tsx",
+      "type": "registry:ui"
+    }
+  ]
+}
