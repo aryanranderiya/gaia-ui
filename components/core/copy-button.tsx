@@ -23,8 +23,8 @@ export function CopyButton({ value }: CopyButtonProps) {
       <TooltipTrigger asChild>
         <Button
           size="icon"
-          variant="ghost"
-          className="min-h-6 min-w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+          variant={"secondary"}
+          className="min-h-6 min-w-6 transition-opacity hover:bg-white"
           onClick={copy}
         >
           {copied ? (

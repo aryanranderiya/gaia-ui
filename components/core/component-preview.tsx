@@ -1,6 +1,7 @@
 "use client";
 
 import { CodeBlock } from "@/components/core/code-block";
+import { FullscreenButton } from "@/components/core/fullscreen-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import * as React from "react";
@@ -47,16 +48,19 @@ export function ComponentPreview({
               Code
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="preview" className="m-0 p-10 h-fit">
+          <TabsContent value="preview" className="m-0 p-5 h-fit relative group">
             <div className="flex flex-wrap items-center justify-center gap-4">
               {children}
+            </div>
+            <div className="absolute right-4 top-4">
+              <FullscreenButton>{children}</FullscreenButton>
             </div>
           </TabsContent>
 
           <TabsContent value="code" className="m-0 p-0 h-fit!">
             <CodeBlock
               raw={code}
-              className="m-0 max-h-none rounded-none border-0 h-full"
+              className="m-0 max-h-none rounded-none border-0 h-full p-4"
             >
               <code
                 className="font-mono text-sm"
