@@ -42,19 +42,32 @@ export default async function DocPage({ params }: PageProps) {
     notFound();
   }
 
-  // Generate breadcrumbs for structured data
+  // Generate breadcrumbs for structured data and UI
   const breadcrumbItems = [
     { name: "Home", url: "/" },
     { name: "Documentation", url: "/docs" },
   ];
 
+  const uiBreadcrumbs: { title: string; href: string }[] = [];
+
   if (slug.length > 0) {
     slug.forEach((part, index) => {
       const url = `/docs/${slug.slice(0, index + 1).join("/")}`;
+      const title =
+        part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, " ");
+
       breadcrumbItems.push({
-        name: part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, " "),
+        name: title,
         url,
       });
+
+      // Add to UI breadcrumbs (exclude the last item as it's the current page)
+      if (index < slug.length - 1) {
+        uiBreadcrumbs.push({
+          title,
+          href: url,
+        });
+      }
     });
   }
 
@@ -81,6 +94,7 @@ export default async function DocPage({ params }: PageProps) {
         description={metadata.description}
         toc={toc}
         markdownContent={content}
+        breadcrumbs={uiBreadcrumbs}
       >
         <Suspense
           fallback={

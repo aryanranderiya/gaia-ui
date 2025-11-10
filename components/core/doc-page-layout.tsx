@@ -1,5 +1,8 @@
 import { TableOfContents } from "@/components/core/table-of-contents";
 import { PageNavigation } from "@/components/core/page-navigation";
+import { getNavigation } from "@/lib/navigation";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import * as React from "react";
 
 interface TocEntry {
@@ -14,6 +17,7 @@ interface DocPageLayoutProps {
   toc?: TocEntry[];
   markdownContent?: string;
   children: React.ReactNode;
+  breadcrumbs?: { title: string; href: string }[];
 }
 
 export function DocPageLayout({
@@ -22,25 +26,56 @@ export function DocPageLayout({
   toc = [],
   markdownContent,
   children,
+  breadcrumbs = [],
 }: DocPageLayoutProps) {
   const fullMarkdown = `# ${title}\n\n${description}\n\n${
     markdownContent || ""
   }`;
+  const navigation = getNavigation();
 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 flex-1 xl:flex xl:gap-10">
       <div className="mx-auto w-full max-w-4xl min-w-0 flex-1">
+        {breadcrumbs.length > 0 && (
+          <nav className="flex items-center space-x-1 text-sm text-muted-foreground mb-4">
+            <Link
+              href="/docs"
+              className="hover:text-foreground transition-colors"
+            >
+              Docs
+            </Link>
+            {breadcrumbs.map((crumb, index) => (
+              <React.Fragment key={crumb.href}>
+                <ChevronRight className="h-4 w-4" />
+                <Link
+                  href={crumb.href}
+                  className="hover:text-foreground transition-colors"
+                >
+                  {crumb.title}
+                </Link>
+              </React.Fragment>
+            ))}
+          </nav>
+        )}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <h1 className="scroll-m-20 text-4xl font-semibold tracking-tight">
               {title}
             </h1>
-            <PageNavigation position="top" markdownContent={fullMarkdown} />
+            <PageNavigation
+              position="top"
+              markdownContent={fullMarkdown}
+              navigation={navigation}
+            />
           </div>
           <p className="text-md text-muted-foreground">{description}</p>
         </div>
         <div className="pt-10 space-y-6">{children}</div>
-        <PageNavigation position="bottom" markdownContent={fullMarkdown} />
+        <PageNavigation
+          position="bottom"
+          markdownContent={fullMarkdown}
+          navigation={navigation}
+        />
       </div>
       <div className="hidden text-sm xl:block w-[300px] shrink-0">
         <div className="sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] overflow-hidden pt-6">

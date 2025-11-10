@@ -45,9 +45,9 @@ export function TableOfContents({ toc }: TableOfContentsProps) {
       <p className="text-xs text-muted-foreground">On This Page</p>
       <nav>
         <ul className="m-0 list-none">
-          {toc.map((item) => (
+          {toc.map((item, index) => (
             <li
-              key={item.id}
+              key={`${item.id}-${index}`}
               className={cn("mt-0 pt-2", {
                 "pl-4": item.level === 3,
                 "pl-8": item.level === 4,
