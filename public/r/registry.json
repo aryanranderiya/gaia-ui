@@ -39,28 +39,6 @@
       ]
     },
     {
-      "name": "composer",
-      "type": "registry:ui",
-      "title": "Composer",
-      "description": "A powerful chat input component with file uploads, slash commands, and tool integration for AI chat interfaces.",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": ["button"],
-      "files": [
-        {
-          "path": "registry/new-york/ui/composer.tsx",
-          "type": "registry:ui"
-        },
-        {
-          "path": "registry/new-york/ui/composer-input.tsx",
-          "type": "registry:ui"
-        },
-        {
-          "path": "registry/new-york/ui/composer-toolbar.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
       "name": "weather-card",
       "type": "registry:ui",
       "title": "Weather Card",
