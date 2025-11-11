@@ -2,10 +2,11 @@ import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
-import "./globals.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
+import "./globals.css";
 
+import { NavbarWrapper } from "@/components/core/navbar-wrapper";
 import {
   generateOrganizationSchema,
   generateSEO,
@@ -52,6 +53,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NavbarWrapper />
           {children}
         </ThemeProvider>
       </body>

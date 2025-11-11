@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/ui/navbar";
 import { generateSEO, generateSoftwareSchema } from "@/lib/seo";
 import { RaisedButton } from "@/registry/new-york/ui/raised-button";
 import { ArrowRight } from "lucide-react";
@@ -34,7 +33,6 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
       />
-      <Navbar />
       <div className="relative px-4">
         <section className="mx-auto flex flex-col max-w-3xl  gap-5 py-8 md:py-16 lg:py-24">
           <h1 className="text-3xl font-semibold leading-tight tracking-tight md:text-4xl lg:text-4xl">
