@@ -5,7 +5,7 @@
 
 import { ComponentType } from "react";
 
-type PreviewComponent = ComponentType<any>;
+type PreviewComponent = ComponentType<unknown>;
 
 /**
  * Get a preview component by its name
@@ -19,8 +19,8 @@ export async function getPreviewComponent(
   try {
     // Dynamic import based on path (folder/file)
     // Next.js will bundle all files in the previews directory
-    const module = await import(`@/components/previews/${name}`);
-    return module.default;
+    const component_module = await import(`@/components/previews/${name}`);
+    return component_module.default;
   } catch (error) {
     console.error(`Error loading preview component: ${name}`, error);
     return null;

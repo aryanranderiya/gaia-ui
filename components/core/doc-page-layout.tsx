@@ -44,7 +44,7 @@ export function DocPageLayout({
             >
               Docs
             </Link>
-            {breadcrumbs.map((crumb, index) => (
+            {breadcrumbs.map((crumb) => (
               <React.Fragment key={crumb.href}>
                 <ChevronRight className="h-4 w-4" />
                 <Link
