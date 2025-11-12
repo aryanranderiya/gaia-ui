@@ -1,6 +1,13 @@
+![](https://img.shields.io/badge/Status-Beta-00ba6d)
+
 # GAIA UI - Component Registry
 
 A collection of production-ready UI components designed specifically for building AI assistants and chatbots. These are the components we use at GAIA, now available for anyone building conversational interfaces.
+
+<a href="https://ui.heygaia.io">
+<img width="170" alt="button" src="https://github.com/user-attachments/assets/792a5450-d07f-44aa-a859-38d822f95f81" />
+</a>
+
 
 ## Why This Library?
 
