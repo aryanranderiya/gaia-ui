@@ -12,6 +12,9 @@ export const siteConfig = {
     github: "https://github.com/heygaia/ui",
     experienceCompany: "https://experience.heygaia.io",
     twitter: "https://twitter.com/trygaia",
+    discord: "https://discord.heygaia.io",
+    "feature-request":
+      "https://terrific-address-fab.notion.site/2c0023640e7b80c8b0f0ffba5046e852?pvs=105",
   },
   keywords: [
     "GAIA UI",
