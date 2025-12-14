@@ -1,351 +1,470 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Cancel01Icon, Loading03Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { Button } from "@heroui/react";
+import { Chip } from "@heroui/react";
+import { Input, Textarea } from "@heroui/react";
+import { Modal, ModalBody, ModalContent } from "@heroui/react";
+import { ScrollShadow } from "@heroui/react";
 import {
-	useEffect,
-	useState,
-	type ClipboardEvent,
-	type FC,
-	type KeyboardEvent,
-} from "react";
+	PencilEdit01Icon,
+	Cancel01Icon,
+	PlusSignIcon,
+	Mail01Icon,
+	Loading03Icon,
+	Tick02Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+import { z } from "zod";
+import { cn } from "@/lib/utils";
 
-export interface EmailRecipient {
-	email: string;
-	isValid?: boolean;
+// Email validation schema
+const emailComposeSchema = z.object({
+	to: z
+		.array(z.string().email("Invalid email address"))
+		.min(1, "At least one recipient is required"),
+	subject: z
+		.string()
+		.min(1, "Subject is required")
+		.max(200, "Subject must be under 200 characters"),
+	body: z
+		.string()
+		.min(1, "Email body is required")
+		.max(10000, "Email body must be under 10,000 characters"),
+});
+
+const emailValidationSchema = z.string().email("Invalid email address");
+
+export interface EmailData {
+	to: string[];
+	subject: string;
+	body: string;
+	draft_id?: string;
+	thread_id?: string;
+	bcc?: string[];
+	cc?: string[];
+	is_html?: boolean;
 }
 
 export interface EmailComposeCardProps {
-	subject: string;
-	body: string;
-	recipients: string[];
-	mode?: "view" | "edit";
-	recipientQuery?: string;
-	onSubjectChange?: (subject: string) => void;
-	onBodyChange?: (body: string) => void;
-	onRecipientsChange?: (recipients: string[]) => void;
-	onSend?: () => void;
-	onCancel?: () => void;
-	isSending?: boolean;
+	emailData: EmailData;
+	onSend?: (data: EmailData) => void;
 	className?: string;
 }
 
-const isValidEmail = (email: string): boolean => {
-	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	return emailRegex.test(email.trim());
-};
-
-export const EmailComposeCard: FC<EmailComposeCardProps> = ({
-	subject: initialSubject,
-	body: initialBody,
-	recipients: initialRecipients,
-	mode = "edit",
-	recipientQuery,
-	onSubjectChange,
-	onBodyChange,
-	onRecipientsChange,
-	onSend,
-	onCancel,
-	isSending = false,
-	className,
-}) => {
-	const [subject, setSubject] = useState(initialSubject);
-	const [body, setBody] = useState(initialBody);
-	const [emailChips, setEmailChips] = useState<EmailRecipient[]>(
-		initialRecipients.map((email) => ({ email, isValid: isValidEmail(email) })),
-	);
-	const [currentInput, setCurrentInput] = useState("");
-	const [errors, setErrors] = useState<{
-		subject?: string;
-		body?: string;
-		recipients?: string;
-	}>({});
-
-	// Sync state with props
-	useEffect(() => {
-		setSubject(initialSubject);
-	}, [initialSubject]);
-
-	useEffect(() => {
-		setBody(initialBody);
-	}, [initialBody]);
-
-	const addEmailChip = (email: string) => {
-		const trimmedEmail = email.trim();
-		if (
-			trimmedEmail &&
-			!emailChips.some((chip) => chip.email === trimmedEmail)
-		) {
-			const newChip = {
-				email: trimmedEmail,
-				isValid: isValidEmail(trimmedEmail),
-			};
-			const newChips = [...emailChips, newChip];
-			setEmailChips(newChips);
-			setCurrentInput("");
-			setErrors((prev) => ({ ...prev, recipients: undefined }));
-			onRecipientsChange?.(newChips.map((c) => c.email));
-		}
-	};
-
-	const removeEmailChip = (emailToRemove: string) => {
-		const newChips = emailChips.filter((chip) => chip.email !== emailToRemove);
-		setEmailChips(newChips);
-		onRecipientsChange?.(newChips.map((c) => c.email));
-	};
-
-	const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-		if (e.key === "Enter" || e.key === "," || e.key === " ") {
-			e.preventDefault();
-			if (currentInput.trim()) {
-				addEmailChip(currentInput);
+function RecipientSelectionModal({
+	isOpen,
+	onClose,
+	onConfirm,
+	suggestions,
+	selectedEmails,
+	setSelectedEmails,
+	customEmailInput,
+	setCustomEmailInput,
+	customEmailError,
+	setCustomEmailError,
+	handleAddCustomEmail,
+}: {
+	isOpen: boolean;
+	onClose: () => void;
+	onConfirm: () => void;
+	suggestions: string[];
+	selectedEmails: string[];
+	setSelectedEmails: React.Dispatch<React.SetStateAction<string[]>>;
+	customEmailInput: string;
+	setCustomEmailInput: React.Dispatch<React.SetStateAction<string>>;
+	customEmailError: string;
+	setCustomEmailError: React.Dispatch<React.SetStateAction<string>>;
+	handleAddCustomEmail: () => void;
+}) {
+	const handleSuggestionToggle = (email: string) => {
+		setSelectedEmails((prev) => {
+			if (prev.includes(email)) {
+				// Remove from selected
+				return prev.filter((e) => e !== email);
+			} else {
+				// Add to selected
+				return [...prev, email];
 			}
-		} else if (
-			e.key === "Backspace" &&
-			!currentInput &&
-			emailChips.length > 0
-		) {
-			const lastChip = emailChips[emailChips.length - 1];
-			removeEmailChip(lastChip.email);
-		}
+		});
 	};
 
-	const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
-		e.preventDefault();
-		const pastedText = e.clipboardData.getData("text");
-		const emails = pastedText.split(/[,;\s]+/).filter((email) => email.trim());
-		for (const email of emails) {
-			addEmailChip(email);
-		}
-	};
-
-	const handleSend = () => {
-		const newErrors: typeof errors = {};
-		if (!subject.trim()) newErrors.subject = "Subject is required";
-		if (!body.trim()) newErrors.body = "Body is required";
-		if (emailChips.length === 0)
-			newErrors.recipients = "At least one recipient is required";
-		else {
-			const invalidCount = emailChips.filter((c) => !c.isValid).length;
-			if (invalidCount > 0)
-				newErrors.recipients = `${invalidCount} invalid email(s)`;
-		}
-
-		setErrors(newErrors);
-		if (Object.keys(newErrors).length === 0 && onSend) {
-			onSend();
+	const handleCustomEmailKeyPress = (e: React.KeyboardEvent) => {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			handleAddCustomEmail();
 		}
 	};
 
 	return (
-		<div
-			className={cn(
-				"flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-sm border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800",
-				className,
-			)}
-		>
-			{/* Header */}
-			<div>
-				<h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
-					Review & Send Email
-				</h2>
-				<p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-					{recipientQuery
-						? `AI composed this email based on: "${recipientQuery}"`
-						: "Review and edit your email before sending"}
-				</p>
-			</div>
-
-			{/* Form */}
-			<div className="space-y-6">
-				{/* Recipients */}
-				<div className="space-y-2">
-					<span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-						To <span className="text-red-500">*</span>
-					</span>
-					<div
-						className={cn(
-							"min-h-[56px] rounded-xl border-2 p-3 transition-colors bg-zinc-50 dark:bg-zinc-800/50",
-							errors.recipients
-								? "border-red-500"
-								: "border-zinc-200 dark:border-zinc-700",
-							"focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500",
-						)}
-					>
-						<div className="flex flex-wrap gap-2">
-							{emailChips.map((chip) => (
-								<span
-									key={chip.email}
-									className={cn(
-										"inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium max-w-[200px]",
-										chip.isValid
-											? "bg-blue-500/10 text-blue-700 dark:bg-blue-500/20 dark:text-blue-400"
-											: "bg-red-500/10 text-red-700 dark:bg-red-500/20 dark:text-red-400",
-									)}
-								>
-									<span className="truncate">{chip.email}</span>
-									{mode === "edit" && (
-										<button
-											type="button"
-											onClick={() => removeEmailChip(chip.email)}
-											className={cn(
-												"ml-1 rounded-full p-0.5 hover:bg-black/5 dark:hover:bg-white/10 transition-colors",
-												chip.isValid
-													? "text-blue-600 dark:text-blue-400"
-													: "text-red-600 dark:text-red-400",
-											)}
-										>
-											<HugeiconsIcon icon={Cancel01Icon} size={10} />
-										</button>
-									)}
-								</span>
-							))}
-
-							{mode === "edit" && (
-								<input
-									type="text"
-									value={currentInput}
-									onChange={(e) => setCurrentInput(e.target.value)}
-									onKeyDown={handleInputKeyDown}
-									onPaste={handlePaste}
-									onBlur={() => {
-										if (currentInput.trim()) {
-											addEmailChip(currentInput);
-										}
-									}}
-									placeholder={
-										emailChips.length === 0
-											? "Enter email addresses..."
-											: "Add more emails..."
-									}
-									className="min-w-[120px] flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-400 text-zinc-900 dark:text-zinc-100"
-								/>
-							)}
-						</div>
+		<Modal isOpen={isOpen} onOpenChange={onClose} size="sm">
+			<ModalContent>
+				<ModalBody>
+					<div className="pt-2 text-sm font-medium text-zinc-900 dark:text-zinc-100">
+						Email Suggestions
 					</div>
-					{errors.recipients && (
-						<p className="text-xs text-red-500 mt-1">{errors.recipients}</p>
-					)}
-					{mode === "edit" && !errors.recipients && (
-						<p className="text-xs text-zinc-500 mt-1">
-							Press Enter, comma, or space to add emails. Use Backspace to
-							remove last email.
-						</p>
-					)}
-				</div>
 
-				{/* Subject */}
-				<div className="space-y-2">
-					<label
-						htmlFor="email-subject"
-						className="text-sm font-medium text-zinc-900 dark:text-zinc-100"
-					>
-						Subject <span className="text-red-500">*</span>
-					</label>
-					{mode === "edit" ? (
-						<div className="relative">
-							<input
-								id="email-subject"
-								type="text"
-								value={subject}
-								onChange={(e) => {
-									setSubject(e.target.value);
-									if (errors.subject)
-										setErrors((p) => ({ ...p, subject: undefined }));
-									onSubjectChange?.(e.target.value);
-								}}
-								placeholder="Email subject"
-								className={cn(
-									"w-full rounded-xl border-2 px-3 py-3 text-sm transition-all outline-none",
-									"bg-transparent",
-									errors.subject
-										? "border-red-500"
-										: "border-zinc-200 dark:border-zinc-700",
-									"focus:border-blue-500 focus:ring-1 focus:ring-blue-500",
-									"placeholder:text-zinc-400 text-zinc-900 dark:text-zinc-100",
-								)}
-							/>
-							{errors.subject && (
-								<p className="text-xs text-red-500 mt-1 absolute -bottom-5">
-									{errors.subject}
-								</p>
-							)}
-						</div>
-					) : (
-						<p className="text-sm font-medium text-zinc-900 dark:text-zinc-100 p-2">
-							{subject}
-						</p>
-					)}
-				</div>
+					{/* Suggestions */}
+					<div className="flex flex-wrap gap-2">
+						{suggestions.map((email) => (
+							<Chip
+								key={email}
+								size="sm"
+								variant="flat"
+								color={selectedEmails.includes(email) ? "primary" : "default"}
+								className="cursor-pointer text-xs"
+								onClick={() => handleSuggestionToggle(email)}
+								endContent={
+									selectedEmails.includes(email) ? (
+										<HugeiconsIcon icon={Cancel01Icon} size={12} />
+									) : null
+								}
+							>
+								{email}
+							</Chip>
+						))}
+					</div>
 
-				{/* Body */}
-				<div className="space-y-2">
-					<label
-						htmlFor="email-body"
-						className="text-sm font-medium text-zinc-900 dark:text-zinc-100"
-					>
-						Body <span className="text-red-500">*</span>
-					</label>
-					{mode === "edit" ? (
-						<div className="relative">
-							<textarea
-								id="email-body"
-								value={body}
-								onChange={(e) => {
-									setBody(e.target.value);
-									if (errors.body)
-										setErrors((p) => ({ ...p, body: undefined }));
-									onBodyChange?.(e.target.value);
-								}}
-								placeholder="Email body"
-								rows={12}
-								className={cn(
-									"w-full rounded-xl border-2 px-3 py-3 text-sm transition-all outline-none resize-none",
-									"bg-transparent",
-									errors.body
-										? "border-red-500"
-										: "border-zinc-200 dark:border-zinc-700",
-									"focus:border-blue-500 focus:ring-1 focus:ring-blue-500",
-									"placeholder:text-zinc-400 text-zinc-900 dark:text-zinc-100",
-								)}
-							/>
-							{errors.body && (
-								<p className="text-xs text-red-500 mt-1 absolute -bottom-5">
-									{errors.body}
-								</p>
-							)}
-						</div>
-					) : (
-						<p className="text-sm text-zinc-700 dark:text-zinc-300 whitespace-pre-line leading-relaxed p-2">
-							{body}
-						</p>
-					)}
-				</div>
-			</div>
+					<hr className="my-2 border-zinc-200 dark:border-zinc-700" />
 
-			{/* Footer */}
-			<div className="flex justify-end gap-3 mt-2">
-				{onCancel && (
-					<button
-						type="button"
-						onClick={onCancel}
-						disabled={isSending}
-						className="rounded-lg px-4 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 transition-colors disabled:opacity-50"
-					>
-						Cancel
-					</button>
+					<div className="flex gap-2">
+						<Input
+							placeholder="Add email..."
+							value={customEmailInput}
+							onChange={(e) => {
+								setCustomEmailInput(e.target.value);
+								setCustomEmailError("");
+							}}
+							onKeyDown={handleCustomEmailKeyPress}
+							size="sm"
+							isInvalid={!!customEmailError}
+							errorMessage={customEmailError}
+						/>
+						<Button
+							size="sm"
+							color="primary"
+							onPress={handleAddCustomEmail}
+							isIconOnly
+						>
+							<HugeiconsIcon icon={PlusSignIcon} size={16} />
+						</Button>
+					</div>
+
+					{/* Action Buttons */}
+					<div className="mt-4 flex justify-end gap-2">
+						<Button variant="light" size="sm" onPress={onClose}>
+							Cancel
+						</Button>
+						<Button
+							color="primary"
+							size="sm"
+							onPress={onConfirm}
+							isDisabled={selectedEmails.length === 0}
+						>
+							Done ({selectedEmails.length})
+						</Button>
+					</div>
+				</ModalBody>
+			</ModalContent>
+		</Modal>
+	);
+}
+
+export function EmailComposeCard({
+	emailData,
+	onSend,
+	className,
+}: EmailComposeCardProps) {
+	const [isRecipientModalOpen, setIsRecipientModalOpen] = useState(false);
+	const [isSending, setIsSending] = useState(false);
+
+	// Inline editing states
+	const [isEditingSubject, setIsEditingSubject] = useState(false);
+	const [isEditingBody, setIsEditingBody] = useState(false);
+
+	const [editData, setEditData] = useState<EmailData>(emailData);
+	const [errors, setErrors] = useState<Record<string, string>>({});
+
+	// Suggestions come from emailData.to - these are resolved email addresses from the agent
+	const [suggestions, setSuggestions] = useState<string[]>(emailData.to || []);
+
+	// Selected emails state
+	const [selectedEmails, setSelectedEmails] = useState<string[]>(
+		emailData.to || [],
+	);
+
+	// Custom email input state
+	const [customEmailInput, setCustomEmailInput] = useState("");
+	const [customEmailError, setCustomEmailError] = useState("");
+
+	// Input refs for auto-focus
+	const subjectInputRef = useRef<HTMLInputElement>(null);
+	const bodyInputRef = useRef<HTMLTextAreaElement>(null);
+
+	// Initialize with empty emails array - user must select recipients
+	// If there's only one email, select it by default
+	useEffect(() => {
+		const suggestions = emailData.to || [];
+		setEditData((prev) => ({ ...prev, to: [] }));
+		setSuggestions(suggestions);
+
+		// If there's exactly one email suggestion, select it by default
+		if (suggestions.length === 1) setSelectedEmails([suggestions[0]]);
+		else setSelectedEmails([]);
+	}, [emailData.to]);
+
+	// Auto-focus logic
+	useEffect(() => {
+		if (isEditingSubject && subjectInputRef.current) {
+			subjectInputRef.current.focus();
+		}
+	}, [isEditingSubject]);
+
+	useEffect(() => {
+		if (isEditingBody && bodyInputRef.current) {
+			bodyInputRef.current.focus();
+		}
+	}, [isEditingBody]);
+
+	const validateForm = () => {
+		try {
+			emailComposeSchema.parse({
+				to: selectedEmails,
+				subject: editData.subject,
+				body: editData.body,
+			});
+
+			setErrors({});
+			return true;
+		} catch (error) {
+			if (error instanceof z.ZodError) {
+				const newErrors: Record<string, string> = {};
+				error.errors.forEach((err) => {
+					if (err.path[0]) {
+						newErrors[err.path[0].toString()] = err.message;
+					}
+				});
+				setErrors(newErrors);
+			}
+			return false;
+		}
+	};
+
+	const validateCustomEmail = (email: string): boolean => {
+		try {
+			emailValidationSchema.parse(email);
+			setCustomEmailError("");
+			return true;
+		} catch (error) {
+			if (error instanceof z.ZodError) {
+				setCustomEmailError(error.errors[0]?.message || "Invalid email");
+			}
+			return false;
+		}
+	};
+
+	const handleSend = async () => {
+		if (selectedEmails.length === 0) {
+			console.error("Please select at least one recipient");
+			return;
+		}
+
+		if (!validateForm()) {
+			console.error("Please fix the validation errors");
+			return;
+		}
+
+		setIsSending(true);
+		try {
+			if (onSend) {
+				await onSend({ ...editData, to: selectedEmails });
+			}
+		} catch (error) {
+			console.error("Error sending email:", error);
+		} finally {
+			setIsSending(false);
+		}
+	};
+
+	// Handle custom email addition
+	const handleAddCustomEmail = () => {
+		const trimmedEmail = customEmailInput.trim();
+
+		if (!trimmedEmail) {
+			setCustomEmailError("Please enter an email address");
+			return;
+		}
+
+		if (!validateCustomEmail(trimmedEmail)) {
+			return;
+		}
+
+		if (selectedEmails.includes(trimmedEmail)) {
+			setCustomEmailError("Email already selected");
+			return;
+		}
+
+		// Add to selected emails
+		setSelectedEmails((prev) => [...prev, trimmedEmail]);
+
+		// Add to suggestions if not already there
+		if (!suggestions.includes(trimmedEmail)) {
+			setSuggestions((prev) => [...prev, trimmedEmail]);
+		}
+
+		// Clear input
+		setCustomEmailInput("");
+		setCustomEmailError("");
+	};
+
+	const handleConfirmRecipients = () => {
+		setEditData((prev) => ({ ...prev, to: selectedEmails }));
+		setIsRecipientModalOpen(false);
+	};
+
+	return (
+		<>
+			{/* Main Email Card - Zinc Colors, Flat & Rounded, Light/Dark Mode */}
+			<div
+				className={cn(
+					"w-full max-w-xl overflow-hidden rounded-3xl",
+					"bg-zinc-100 dark:bg-zinc-900",
+					className,
 				)}
-				{onSend && mode === "edit" && (
-					<button
-						type="button"
-						onClick={handleSend}
-						disabled={isSending}
-						className={cn(
-							"inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors",
-							"bg-blue-500 hover:bg-blue-600 shadow-sm shadow-blue-500/20",
-							isSending && "opacity-50 cursor-not-allowed",
+			>
+				{/* Header with status chip */}
+				<div className="flex items-center justify-between px-6 py-1">
+					<div className="flex flex-row items-center gap-2 pt-3 pb-2 text-zinc-900 dark:text-zinc-100">
+						<HugeiconsIcon icon={Mail01Icon} size={18} />
+						<span className="text-sm font-medium">
+							{emailData.draft_id ? "Email Draft" : "Compose Email"}
+						</span>
+						{emailData.thread_id && (
+							<Chip size="sm" variant="flat" color="primary">
+								Reply
+							</Chip>
 						)}
+					</div>
+				</div>
+				<div className="flex flex-col gap-1 px-6">
+					<div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+						<span>To:</span>
+						<span className="flex w-full items-center justify-between font-medium text-zinc-900 dark:text-zinc-200">
+							{selectedEmails.join(", ") || ""}
+							<Button
+								size="sm"
+								onPress={() => setIsRecipientModalOpen(true)}
+								variant={selectedEmails.length === 0 ? "flat" : "light"}
+								isIconOnly={selectedEmails.length === 0 ? false : true}
+								className={cn(
+									selectedEmails.length === 0
+										? ""
+										: "text-zinc-500 dark:text-zinc-400",
+								)}
+								endContent={
+									selectedEmails.length === 0 ? (
+										""
+									) : (
+										<HugeiconsIcon icon={PencilEdit01Icon} size={20} />
+									)
+								}
+							>
+								{selectedEmails.length === 0 ? "Add Recipients" : ``}
+							</Button>
+						</span>
+					</div>
+					<div className="my-1.5 h-px bg-zinc-200 dark:bg-zinc-800" />
+					<div className="flex w-full items-center justify-between text-sm text-zinc-500 dark:text-zinc-400">
+						<div className="flex items-center gap-2 w-full">
+							<span className="flex-shrink-0">Subject:</span>
+							{isEditingSubject ? (
+								<Input
+									ref={subjectInputRef}
+									value={editData.subject}
+									onChange={(e) =>
+										setEditData({ ...editData, subject: e.target.value })
+									}
+									onBlur={() => setIsEditingSubject(false)}
+									onKeyDown={(e) => {
+										if (e.key === "Enter") setIsEditingSubject(false);
+									}}
+									size="sm"
+									classNames={{
+										input:
+											"text-base font-medium text-zinc-900 dark:text-zinc-200",
+										inputWrapper:
+											"h-7 min-h-7 bg-transparent shadow-none border-none px-0",
+									}}
+								/>
+							) : (
+								<span className="font-medium text-zinc-900 dark:text-zinc-200 truncate flex-1">
+									{editData.subject}
+								</span>
+							)}
+						</div>
+
+						<Button
+							variant="light"
+							size="sm"
+							isIconOnly
+							onPress={() => setIsEditingSubject(!isEditingSubject)}
+							className="text-zinc-500 dark:text-zinc-400"
+						>
+							{isEditingSubject ? (
+								<HugeiconsIcon icon={Tick02Icon} size={20} />
+							) : (
+								<HugeiconsIcon icon={PencilEdit01Icon} size={20} />
+							)}
+						</Button>
+					</div>
+					<div className="my-1.5 h-px bg-zinc-200 dark:bg-zinc-800" />
+
+					<ScrollShadow className="relative z-[1] max-h-46 min-h-[150px] overflow-y-auto pb-5 text-sm leading-relaxed whitespace-pre-line text-zinc-800 dark:text-zinc-200">
+						<div className="absolute top-0 right-0 z-[2] flex w-full justify-end">
+							<Button
+								variant="light"
+								size="sm"
+								isIconOnly
+								onPress={() => setIsEditingBody(!isEditingBody)}
+								className="text-zinc-500 dark:text-zinc-400"
+							>
+								{isEditingBody ? (
+									<HugeiconsIcon icon={Tick02Icon} size={20} />
+								) : (
+									<HugeiconsIcon icon={PencilEdit01Icon} size={20} />
+								)}
+							</Button>
+						</div>
+
+						{isEditingBody ? (
+							<Textarea
+								ref={bodyInputRef}
+								value={editData.body}
+								onChange={(e) =>
+									setEditData({ ...editData, body: e.target.value })
+								}
+								onBlur={() => setIsEditingBody(false)}
+								minRows={6}
+								classNames={{
+									input:
+										"text-sm text-zinc-900 dark:text-zinc-200 placeholder:text-zinc-400 dark:placeholder:text-zinc-500",
+									inputWrapper: "bg-transparent shadow-none border-none p-0",
+								}}
+							/>
+						) : (
+							editData.body
+						)}
+					</ScrollShadow>
+				</div>
+				<div className="flex justify-end px-6 pb-5">
+					<Button
+						color="primary"
+						onPress={handleSend}
+						isLoading={isSending}
+						isDisabled={selectedEmails.length === 0}
+						radius="full"
+						className="font-medium"
 					>
 						{isSending ? (
 							<>
@@ -356,15 +475,28 @@ export const EmailComposeCard: FC<EmailComposeCardProps> = ({
 								/>
 								Sending...
 							</>
+						) : emailData.draft_id ? (
+							"Send Draft"
 						) : (
-							<>
-								Send Email
-								{/* <HugeiconsIcon icon={SentIcon} size={16} /> */}
-							</>
+							"Send"
 						)}
-					</button>
-				)}
+					</Button>
+				</div>
 			</div>
-		</div>
+
+			<RecipientSelectionModal
+				isOpen={isRecipientModalOpen}
+				onClose={() => setIsRecipientModalOpen(false)}
+				onConfirm={handleConfirmRecipients}
+				suggestions={suggestions}
+				selectedEmails={selectedEmails}
+				setSelectedEmails={setSelectedEmails}
+				customEmailInput={customEmailInput}
+				setCustomEmailInput={setCustomEmailInput}
+				customEmailError={customEmailError}
+				setCustomEmailError={setCustomEmailError}
+				handleAddCustomEmail={handleAddCustomEmail}
+			/>
+		</>
 	);
-};
+}

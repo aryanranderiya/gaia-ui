@@ -99,14 +99,16 @@ export const GoalCard: FC<GoalCardProps> = ({
 	return (
 		<div
 			className={cn(
-				"group flex w-full flex-col rounded-2xl p-4",
-				"bg-zinc-100 dark:bg-zinc-800 dark:bg-opacity-50",
+				"group flex w-full flex-col rounded-3xl p-5",
+				"bg-white dark:bg-zinc-900",
+				"border border-zinc-200 dark:border-zinc-800",
+				"shadow-sm",
 				className,
 			)}
 		>
 			{/* Title row */}
 			<div className="relative flex w-full items-center gap-2">
-				<span className="w-[90%] truncate font-medium text-zinc-900 dark:text-white">
+				<span className="w-[90%] truncate font-medium text-lg text-zinc-900 dark:text-zinc-100">
 					{displayTitle}
 				</span>
 
@@ -121,7 +123,7 @@ export const GoalCard: FC<GoalCardProps> = ({
 							}}
 							className={cn(
 								"flex h-8 w-8 items-center justify-center rounded-lg transition-colors",
-								"hover:bg-zinc-200 dark:hover:bg-zinc-700",
+								"hover:bg-zinc-100 dark:hover:bg-zinc-800",
 							)}
 							aria-label="Delete goal"
 						>
@@ -136,17 +138,17 @@ export const GoalCard: FC<GoalCardProps> = ({
 			</div>
 
 			{/* Progress bar */}
-			<div className="my-3 flex items-center justify-between gap-2">
-				<div className="relative h-3 w-full rounded-full">
+			<div className="my-4 flex items-center justify-between gap-3">
+				<div className="relative h-2.5 w-full rounded-full overflow-hidden">
 					{/* Progress fill */}
 					<div
-						className="absolute top-0 left-0 z-[2] h-3 rounded-full bg-blue-500 transition-all"
+						className="absolute top-0 left-0 z-[2] h-full rounded-full bg-zinc-900 dark:bg-zinc-100 transition-all"
 						style={{ width: `${progress || 0}%` }}
 					/>
 					{/* Background track */}
-					<div className="absolute top-0 left-0 h-3 w-full rounded-full bg-zinc-200 dark:bg-zinc-900" />
+					<div className="absolute top-0 left-0 h-full w-full bg-zinc-100 dark:bg-zinc-800" />
 				</div>
-				<span className="text-xs text-zinc-600 dark:text-zinc-400">
+				<span className="text-sm font-medium text-zinc-600 dark:text-zinc-400 min-w-[2.5rem] text-right">
 					{progress || 0}%
 				</span>
 			</div>
@@ -166,7 +168,7 @@ export const GoalCard: FC<GoalCardProps> = ({
 
 				{/* Steps chip */}
 				{hasSteps && (
-					<span className="inline-flex items-center gap-1 rounded-full bg-zinc-200/50 dark:bg-zinc-700 px-2.5 py-1 text-xs text-zinc-500 dark:text-zinc-400">
+					<span className="inline-flex items-center gap-1 rounded-full bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 text-xs text-zinc-600 dark:text-zinc-400">
 						<HugeiconsIcon icon={CheckmarkCircle02Icon} size={14} />
 						{completedSteps}/{totalSteps} steps
 					</span>
@@ -174,8 +176,8 @@ export const GoalCard: FC<GoalCardProps> = ({
 
 				{/* Created date */}
 				{createdAt && (
-					<span className="flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-500">
-						<HugeiconsIcon icon={Calendar03Icon} size={16} />
+					<span className="flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-500 ml-1">
+						<HugeiconsIcon icon={Calendar03Icon} size={14} />
 						{formatDate(createdAt)}
 					</span>
 				)}
@@ -186,12 +188,13 @@ export const GoalCard: FC<GoalCardProps> = ({
 						type="button"
 						onClick={() => onClick(id)}
 						className={cn(
-							"ml-auto inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
-							"bg-blue-500 text-white hover:bg-blue-600",
+							"ml-auto inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-medium transition-colors",
+							"bg-zinc-900 text-zinc-100 hover:bg-zinc-700",
+							"dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200",
 						)}
 					>
 						View Goal
-						<HugeiconsIcon icon={ArrowRight01Icon} size={16} />
+						<HugeiconsIcon icon={ArrowRight01Icon} size={14} />
 					</button>
 				)}
 			</div>

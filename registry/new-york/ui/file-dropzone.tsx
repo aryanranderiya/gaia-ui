@@ -5,9 +5,12 @@ import {
 	CloudUploadIcon,
 	Cancel01Icon,
 	File01Icon,
+	Upload01Icon,
+	FileUploadIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
 
 export interface DroppedFile {
 	id: string;
@@ -24,6 +27,8 @@ export interface FileDropzoneProps {
 	disabled?: boolean;
 	className?: string;
 	children?: ReactNode;
+	// New props for styling flexibility
+	acceptedFileTypes?: string[];
 }
 
 export const FileDropzone: FC<FileDropzoneProps> = ({
@@ -35,6 +40,7 @@ export const FileDropzone: FC<FileDropzoneProps> = ({
 	disabled = false,
 	className,
 	children,
+	acceptedFileTypes = ["*"],
 }) => {
 	const [isDragging, setIsDragging] = useState(false);
 	const [files, setFiles] = useState<DroppedFile[]>([]);
@@ -141,11 +147,13 @@ export const FileDropzone: FC<FileDropzoneProps> = ({
 				onDragLeave={handleDragLeave}
 				onDrop={handleDrop}
 				className={cn(
-					"relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 transition-colors",
+					"relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed transition-all duration-200 overflow-hidden",
 					isDragging
-						? "border-blue-500 bg-blue-50 dark:bg-blue-950/20"
+						? "border-primary/70 bg-linear-to-b from-[#092a36] to-black shadow-2xl"
 						: "border-zinc-300 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900",
 					disabled && "opacity-50 cursor-not-allowed",
+					// Ensure simple styling when not active/dragging
+					!isDragging && "p-8",
 				)}
 			>
 				<input
@@ -154,34 +162,92 @@ export const FileDropzone: FC<FileDropzoneProps> = ({
 					multiple={multiple}
 					onChange={handleInputChange}
 					disabled={disabled}
-					className="absolute inset-0 cursor-pointer opacity-0"
+					className="absolute inset-0 z-10 cursor-pointer opacity-0"
 					aria-label="File input"
 				/>
 
 				{children || (
-					<>
-						<HugeiconsIcon
-							icon={CloudUploadIcon}
-							size={40}
-							className={cn(
-								"mb-3",
-								isDragging
-									? "text-blue-500"
-									: "text-zinc-400 dark:text-zinc-500",
-							)}
-						/>
-						<p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-							{isDragging ? "Drop files here" : "Drag & drop files here"}
-						</p>
-						<p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-							or click to browse
-						</p>
-						{maxSize && (
-							<p className="mt-2 text-xs text-zinc-400 dark:text-zinc-500">
-								Max {Math.round(maxSize / 1024 / 1024)}MB per file
-							</p>
+					<AnimatePresence>
+						{isDragging ? (
+							<motion.div
+								className="flex flex-col items-center text-center p-8 w-full h-full justify-center"
+								initial={{ opacity: 0, scale: 0.95 }}
+								animate={{ opacity: 1, scale: 1 }}
+								exit={{ opacity: 0, scale: 0.95 }}
+								transition={{ duration: 0.2 }}
+							>
+								<motion.div
+									className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 text-primary"
+									animate={{
+										y: [0, -10, 0],
+										scale: [1, 1.05, 1],
+									}}
+									transition={{
+										repeat: Number.POSITIVE_INFINITY,
+										duration: 2,
+										ease: "easeInOut",
+									}}
+								>
+									<HugeiconsIcon
+										icon={Upload01Icon}
+										size={36}
+										strokeWidth={1.5}
+									/>
+								</motion.div>
+
+								<h3 className="mb-2 text-2xl font-bold text-foreground">
+									Drop files here
+								</h3>
+
+								<p className="text-muted-foreground mb-4">
+									Release to upload your files
+								</p>
+
+								<div className="text-muted-foreground mt-2 flex flex-wrap items-center justify-center gap-2 text-xs">
+									<div className="flex items-center rounded-full bg-zinc-800 px-3 py-1 text-white">
+										<HugeiconsIcon
+											icon={FileUploadIcon}
+											size={12}
+											className="mr-1"
+										/>
+										<span>Max {Math.round(maxSize / 1024 / 1024)}MB</span>
+									</div>
+
+									<div className="flex items-center rounded-full bg-zinc-800 px-3 py-1 text-white">
+										<HugeiconsIcon
+											icon={File01Icon}
+											size={12}
+											className="mr-1"
+										/>
+										<span>
+											{acceptedFileTypes.includes("*")
+												? "All file types"
+												: acceptedFileTypes.join(", ")}
+										</span>
+									</div>
+								</div>
+							</motion.div>
+						) : (
+							<div className="flex flex-col items-center justify-center">
+								<HugeiconsIcon
+									icon={CloudUploadIcon}
+									size={40}
+									className="mb-3 text-zinc-400 dark:text-zinc-500"
+								/>
+								<p className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+									Drag & drop files here
+								</p>
+								<p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+									or click to browse
+								</p>
+								{maxSize && (
+									<p className="mt-2 text-xs text-zinc-400 dark:text-zinc-500">
+										Max {Math.round(maxSize / 1024 / 1024)}MB per file
+									</p>
+								)}
+							</div>
 						)}
-					</>
+					</AnimatePresence>
 				)}
 			</div>
 

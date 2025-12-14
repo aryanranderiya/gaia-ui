@@ -29,6 +29,8 @@ interface SlashCommandDropdownProps {
 	selectedCategory?: string;
 	categories?: string[];
 	onCategoryChange?: (category: string) => void;
+	className?: string;
+	style?: React.CSSProperties;
 }
 
 export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
@@ -42,6 +44,8 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 	selectedCategory = "all",
 	categories = [],
 	onCategoryChange,
+	className,
+	style,
 }) => {
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -94,7 +98,10 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 	return (
 		<div
 			ref={dropdownRef}
-			className="fixed z-[200] overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/95 backdrop-blur-xl shadow-2xl"
+			className={cn(
+				"fixed z-[200] overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/95 backdrop-blur-xl shadow-2xl",
+				className,
+			)}
 			style={{
 				...(position.top !== undefined && { top: 0, height: position.top }),
 				...(position.bottom !== undefined && {
@@ -104,6 +111,7 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 				left: position.left,
 				width: position.width,
 				boxShadow: "0px -18px 30px 5px rgba(0, 0, 0, 0.3)",
+				...style,
 			}}
 			onClick={(e) => e.stopPropagation()}
 			tabIndex={-1}
