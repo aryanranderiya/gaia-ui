@@ -1,40 +1,41 @@
 "use client";
 
 import * as React from "react";
-import { Check, Copy } from "lucide-react";
+import { Tick02Icon, Copy01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface CopyButtonProps {
-  value: string;
+	value: string;
 }
 
 export function CopyButton({ value }: CopyButtonProps) {
-  const [copied, setCopied] = React.useState(false);
+	const [copied, setCopied] = React.useState(false);
 
-  const copy = async () => {
-    await navigator.clipboard.writeText(value);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+	const copy = async () => {
+		await navigator.clipboard.writeText(value);
+		setCopied(true);
+		setTimeout(() => setCopied(false), 2000);
+	};
 
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          size="icon"
-          variant={"secondary"}
-          className="min-h-6 min-w-6 transition-opacity hover:bg-white"
-          onClick={copy}
-        >
-          {copied ? (
-            <Check className="h-3 w-3" />
-          ) : (
-            <Copy className="h-3 w-3" />
-          )}
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>Copy Code to Clipboard</TooltipContent>
-    </Tooltip>
-  );
+	return (
+		<Tooltip>
+			<TooltipTrigger asChild>
+				<Button
+					size="icon"
+					variant={"secondary"}
+					className="min-h-6 min-w-6 transition-opacity hover:bg-white"
+					onClick={copy}
+				>
+					{copied ? (
+						<HugeiconsIcon icon={Tick02Icon} size={12} />
+					) : (
+						<HugeiconsIcon icon={Copy01Icon} size={12} />
+					)}
+				</Button>
+			</TooltipTrigger>
+			<TooltipContent>Copy Code to Clipboard</TooltipContent>
+		</Tooltip>
+	);
 }

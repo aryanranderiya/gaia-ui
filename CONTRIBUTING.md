@@ -233,7 +233,7 @@ Description...
 - `type`: Always "registry:ui" for components
 - `title`: Display name for the component
 - `description`: Brief description shown in listings
-- `dependencies`: NPM packages required (e.g., "lucide-react")
+- `dependencies`: NPM packages required
 - `registryDependencies`: Other components from the registry (e.g., "button")
 - `files`: Array of all files needed for the component
 
@@ -344,7 +344,7 @@ pnpm add package-name
 
 **Common dependencies:**
 
-- `lucide-react` - For icons
+- `hugeicons` - For icons
 - `@radix-ui/react-*` - For accessible UI primitives
 - `class-variance-authority` - For variant styling
 - `motion` - For animations
@@ -421,7 +421,7 @@ config/
   "type": "registry:ui",
   "title": "Weather Card",
   "description": "A beautiful, interactive weather card component",
-  "dependencies": ["lucide-react"],
+  "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
   "registryDependencies": ["button", "dropdown-menu", "tooltip"],
   "files": [
     {

@@ -139,7 +139,7 @@ export default async function DocPage({ params }: PageProps) {
 				},
 				{
 					name: "Install Dependencies",
-					text: "Install required dependencies including class-variance-authority, clsx, tailwind-merge, and lucide-react.",
+					text: "Install required dependencies including class-variance-authority, clsx, tailwind-merge, and @hugeicons/react.",
 				},
 				{
 					name: "Configure Path Aliases",

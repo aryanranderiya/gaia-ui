@@ -8,55 +8,55 @@ import "./globals.css";
 
 import { NavbarWrapper } from "@/components/core/navbar-wrapper";
 import {
-  generateOrganizationSchema,
-  generateSEO,
-  generateWebsiteSchema,
+	generateOrganizationSchema,
+	generateSEO,
+	generateWebsiteSchema,
 } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  ...generateSEO(),
-  metadataBase: new URL("https://ui.heygaia.io"),
+	...generateSEO(),
+	metadataBase: new URL("https://ui.heygaia.io"),
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  const organizationSchema = generateOrganizationSchema();
-  const websiteSchema = generateWebsiteSchema();
+	const organizationSchema = generateOrganizationSchema();
+	const websiteSchema = generateWebsiteSchema();
 
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
-        />
-        {/* JSON-LD Structured Data for better SEO */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-        />
-      </head>
-      <body className="min-h-screen bg-background font-sans antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NavbarWrapper />
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<head>
+				<link
+					rel="stylesheet"
+					type="text/css"
+					href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+				/>
+				{/* JSON-LD Structured Data for better SEO */}
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(organizationSchema),
+					}}
+				/>
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+				/>
+			</head>
+			<body className="min-h-screen bg-background font-sans antialiased">
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<NavbarWrapper />
+					{children}
+				</ThemeProvider>
+			</body>
+		</html>
+	);
 }

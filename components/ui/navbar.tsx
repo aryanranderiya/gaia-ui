@@ -18,9 +18,10 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { siteConfig } from "@/lib/siteConfig";
 import { cn } from "@/lib/utils";
 import type { NavSection } from "@/types/nav-item";
-import { Star } from "lucide-react";
+import { StarIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import Image from "next/image";
-import { FaGithub } from "react-icons/fa";
+import { GitHub } from "@/components/icons/github";
 import { Kbd, KbdGroup } from "./kbd";
 
 interface NavbarProps {
@@ -143,9 +144,13 @@ export function Navbar({ navigation }: NavbarProps) {
 								target="_blank"
 								rel="noreferrer"
 							>
-								<FaGithub className="h-4 w-4" />
+								<GitHub className="h-4 w-4" />
 								<div className="flex items-center gap-0.5">
-									<Star className="h-5 w-5 fill-yellow-500 text-transparent" />
+									<HugeiconsIcon
+										icon={StarIcon}
+										size={20}
+										className="fill-yellow-500 text-transparent"
+									/>
 									{stars !== null && (
 										<span className="text-sm font-medium">
 											{stars.toLocaleString()}
