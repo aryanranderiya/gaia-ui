@@ -2,7 +2,7 @@ import { TableOfContents } from "@/components/core/table-of-contents";
 import { PageNavigation } from "@/components/core/page-navigation";
 import { getNavigation } from "@/lib/navigation";
 import Link from "next/link";
-import { ArrowRight01Icon, HugeiconsIcon } from "@/components/icons";
+import { ArrowRight02Icon, HugeiconsIcon } from "@/components/icons";
 import * as React from "react";
 
 interface TocEntry {
@@ -46,7 +46,7 @@ export function DocPageLayout({
 						</Link>
 						{breadcrumbs.map((crumb) => (
 							<React.Fragment key={crumb.href}>
-								<HugeiconsIcon icon={ArrowRight01Icon} size={16} />
+								<HugeiconsIcon icon={ArrowRight02Icon} size={16} />
 								<Link
 									href={crumb.href}
 									className="hover:text-foreground transition-colors"

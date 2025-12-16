@@ -1,6 +1,6 @@
 import { generateSEO, generateSoftwareSchema } from "@/lib/seo";
 import { RaisedButton } from "@/registry/new-york/ui/raised-button";
-import { ArrowRight01Icon, HugeiconsIcon } from "@/components/icons";
+import { ArrowRight02Icon, HugeiconsIcon } from "@/components/icons";
 import Link from "next/link";
 import { GitHub } from "@/components/icons/github";
 
@@ -58,7 +58,7 @@ export default function Home() {
 								className="flex items-center"
 							>
 								Browse components
-								<HugeiconsIcon icon={ArrowRight01Icon} size={16} />
+								<HugeiconsIcon icon={ArrowRight02Icon} size={16} />
 							</RaisedButton>
 						</Link>
 						<Link

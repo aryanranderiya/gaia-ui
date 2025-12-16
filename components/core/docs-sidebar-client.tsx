@@ -17,6 +17,7 @@ import { ComponentPreviewTooltip } from "@/registry/new-york/ui/component-previe
 import type { NavSection } from "@/types/nav-item";
 import { DiscordIcon, TwitterIcon } from "../icons/social-icons";
 import type { IconSvgElement } from "@hugeicons/react";
+import Image from "next/image";
 
 interface DocsSidebarClientProps {
 	navigation: NavSection[];
@@ -51,9 +52,9 @@ export function DocsSidebarClient({ navigation }: DocsSidebarClientProps) {
 			<div className="py-10  lg:py-8 overflow-auto h-full">
 				<nav className="grid grid-flow-row auto-rows-max text-sm">
 					{navigation.map((section) => (
-						<div key={section.title} className="pb-4">
-							{section.title.length > 0 && (
-								<h4 className="mb-1 rounded-md px-2 py-1 text-xs text-muted-foreground">
+						<div key={section.title} className="pb-6">
+							{section.title.length > 0 && section.title !== "Socials" && (
+								<h4 className="rounded-md px-2 py-1 text-xs text-muted-foreground">
 									{section.title}
 								</h4>
 							)}
@@ -72,19 +73,28 @@ export function DocsSidebarClient({ navigation }: DocsSidebarClientProps) {
 												? "text-[#5865F2]"
 												: item.title === "Twitter"
 													? "text-[#1DA1F2]"
-													: "";
+													: "text-foreground/50";
 
 										const linkContent = (
 											<>
-												{PageIcon ? (
+												{item.icon ? (
+													<Image
+														src={item.icon}
+														alt=""
+														className="w-4 h-4"
+														width={16}
+														height={16}
+													/>
+												) : PageIcon ? (
 													<HugeiconsIcon
 														icon={PageIcon}
 														size={17}
-														className="text-foreground/60"
+														className={cn(iconColor)}
 													/>
 												) : SocialIcon ? (
 													<SocialIcon className={cn("w-4 h-4", iconColor)} />
 												) : null}
+
 												{item.title}
 											</>
 										);

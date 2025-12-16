@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AuthorTooltip } from "@/registry/new-york/ui/author-tooltip";
 
@@ -152,51 +153,58 @@ export function ContributorsPage() {
 			) : (
 				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
 					{contributors.map((contributor) => (
-						<a
+						<AuthorTooltip
 							key={contributor.login}
-							href={contributor.html_url}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="flex flex-col items-center gap-3 p-4 rounded-xl hover:bg-accent transition-colors group aspect-square"
+							author={{
+								name: contributor.name || contributor.login,
+								avatar: contributor.avatar_url,
+								role: `@${contributor.login}`,
+								github: contributor.html_url,
+							}}
+							trigger={
+								<a
+									href={contributor.html_url}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="flex flex-col items-center gap-3 p-4 rounded-xl hover:bg-accent transition-colors group aspect-square cursor-pointer"
+								>
+									<Image
+										src={contributor.avatar_url}
+										alt={contributor.name || contributor.login}
+										width={64}
+										height={64}
+										className="h-16 w-16 rounded-full"
+									/>
+									<div className="text-center">
+										<div className="text-sm font-medium group-hover:text-foreground transition-colors truncate text-nowrap">
+											{contributor.name || contributor.login}
+										</div>
+										<div className="text-xs text-muted-foreground">
+											{contributor.commits} commits
+										</div>
+									</div>
+								</a>
+							}
 						>
-							<AuthorTooltip
-								author={{
-									name: contributor.name || contributor.login,
-									avatar: contributor.avatar_url,
-									role: `@${contributor.login}`,
-									github: contributor.html_url,
-								}}
-								avatarSize="xl"
-								avatarClassName="cursor-help"
-							>
-								<div className="text-xs space-y-1">
-									<div className="flex justify-between gap-4">
-										<span className="text-muted-foreground">Commits:</span>
-										<span className="font-medium">{contributor.commits}</span>
-									</div>
-									<div className="flex justify-between gap-4">
-										<span className="text-muted-foreground">Additions:</span>
-										<span className="font-medium text-green-600">
-											+{contributor.additions.toLocaleString()}
-										</span>
-									</div>
-									<div className="flex justify-between gap-4">
-										<span className="text-muted-foreground">Deletions:</span>
-										<span className="font-medium text-red-600">
-											-{contributor.deletions.toLocaleString()}
-										</span>
-									</div>
+							<div className="text-xs space-y-1">
+								<div className="flex justify-between gap-4">
+									<span className="text-muted-foreground">Commits:</span>
+									<span className="font-medium">{contributor.commits}</span>
 								</div>
-							</AuthorTooltip>
-							<div className="text-center">
-								<div className="text-sm font-medium group-hover:text-foreground transition-colors truncate text-nowrap">
-									{contributor.name || contributor.login}
+								<div className="flex justify-between gap-4">
+									<span className="text-muted-foreground">Additions:</span>
+									<span className="font-medium text-green-600">
+										+{contributor.additions.toLocaleString()}
+									</span>
 								</div>
-								<div className="text-xs text-muted-foreground">
-									{contributor.commits} commits
+								<div className="flex justify-between gap-4">
+									<span className="text-muted-foreground">Deletions:</span>
+									<span className="font-medium text-red-600">
+										-{contributor.deletions.toLocaleString()}
+									</span>
 								</div>
 							</div>
-						</a>
+						</AuthorTooltip>
 					))}
 				</div>
 			)}

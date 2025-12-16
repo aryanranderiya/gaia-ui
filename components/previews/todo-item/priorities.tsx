@@ -1,6 +1,6 @@
 "use client";
 
-import { TodoItem } from "@/registry/new-york/ui/todo-item";
+import { TodoItem } from "@/registry/new-york/ui/TodoItem";
 
 export default function TodoItemPriorities() {
 	const todos = [

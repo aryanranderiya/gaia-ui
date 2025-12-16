@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import {
 	Tick02Icon,
-	ArrowLeft01Icon,
-	ArrowRight01Icon,
+	ArrowLeft02Icon,
+	ArrowRight02Icon,
 	Copy01Icon,
 	HugeiconsIcon,
 } from "@/components/icons";
@@ -80,7 +80,7 @@ export function PageNavigationClient({
 							className="shadow-none! h-8 w-8 aspect-square"
 						>
 							<Link href={prevPage.href}>
-								<HugeiconsIcon icon={ArrowLeft01Icon} size={20} />
+								<HugeiconsIcon icon={ArrowLeft02Icon} size={20} />
 							</Link>
 						</Button>
 					)}
@@ -92,7 +92,7 @@ export function PageNavigationClient({
 							className="shadow-none! h-8 w-8 aspect-square"
 						>
 							<Link href={nextPage.href}>
-								<HugeiconsIcon icon={ArrowRight01Icon} size={20} />
+								<HugeiconsIcon icon={ArrowRight02Icon} size={20} />
 							</Link>
 						</Button>
 					)}
@@ -107,7 +107,7 @@ export function PageNavigationClient({
 				{prevPage && (
 					<Button variant="secondary" size="sm" asChild>
 						<Link href={prevPage.href} className="flex items-center gap-2">
-							<HugeiconsIcon icon={ArrowLeft01Icon} size={16} />
+							<HugeiconsIcon icon={ArrowLeft02Icon} size={16} />
 							<span>{prevPage.title}</span>
 						</Link>
 					</Button>
@@ -116,7 +116,7 @@ export function PageNavigationClient({
 					<Button variant="secondary" size="sm" asChild>
 						<Link href={nextPage.href} className="flex items-center gap-2">
 							<span>{nextPage.title}</span>
-							<HugeiconsIcon icon={ArrowRight01Icon} size={20} />
+							<HugeiconsIcon icon={ArrowRight02Icon} size={20} />
 						</Link>
 					</Button>
 				)}

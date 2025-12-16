@@ -24,6 +24,8 @@ interface AuthorTooltipProps {
 	author: Author;
 	avatarSize?: "sm" | "md" | "lg" | "xl";
 	avatarClassName?: string;
+	/** Custom trigger element - if not provided, defaults to avatar */
+	trigger?: React.ReactNode;
 	/** Additional content to render in the tooltip */
 	children?: React.ReactNode;
 }
@@ -39,6 +41,7 @@ export function AuthorTooltip({
 	author,
 	avatarSize = "sm",
 	avatarClassName = "cursor-help border-2 border-border",
+	trigger,
 	children,
 }: AuthorTooltipProps) {
 	const getInitials = (name: string) => {
@@ -50,13 +53,17 @@ export function AuthorTooltip({
 			.slice(0, 2);
 	};
 
+	const defaultTrigger = (
+		<Avatar className={cn(sizeMap[avatarSize], avatarClassName)}>
+			<AvatarImage src={author.avatar} alt={author.name} />
+			<AvatarFallback>{getInitials(author.name)}</AvatarFallback>
+		</Avatar>
+	);
+
 	return (
 		<Tooltip>
 			<TooltipTrigger asChild>
-				<Avatar className={cn(sizeMap[avatarSize], avatarClassName)}>
-					<AvatarImage src={author.avatar} alt={author.name} />
-					<AvatarFallback>{getInitials(author.name)}</AvatarFallback>
-				</Avatar>
+				{trigger ? <div>{trigger}</div> : defaultTrigger}
 			</TooltipTrigger>
 			<TooltipContent className="p-0 rounded-xl">
 				<div className="flex flex-col gap-2 p-3">

@@ -15,8 +15,13 @@ export function getNavigation(): NavSection[] {
 	const gettingStartedItems: NavItem[] = [];
 
 	sections.push({
-		title: "",
+		title: "Socials",
 		items: [
+			{
+				title: "GAIA",
+				href: "https://heygaia.io",
+				icon: "/media/logo.svg",
+			},
 			{
 				title: "Discord",
 				href: "https://discord.heygaia.io",
@@ -58,7 +63,7 @@ export function getNavigation(): NavSection[] {
 
 	if (gettingStartedItems.length > 0) {
 		sections.push({
-			title: "",
+			title: "Welcome",
 			items: gettingStartedItems,
 		});
 	}

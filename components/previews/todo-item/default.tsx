@@ -1,6 +1,6 @@
 "use client";
 
-import { TodoItem } from "@/registry/new-york/ui/todo-item";
+import { TodoItem } from "@/registry/new-york/ui/TodoItem";
 
 // Static date for demo purposes - avoids React purity rules
 const DEMO_TOMORROW = new Date("2025-12-16T00:00:00Z");
