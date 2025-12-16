@@ -1,15 +1,15 @@
 "use client";
 
 import {
-	HugeiconsIcon,
 	AttachmentIcon,
+	HugeiconsIcon,
 	Image01Icon,
 	Link01Icon,
 } from "@/components/icons";
 import {
 	Composer,
-	type Tool,
 	type ComposerContextOption,
+	type Tool,
 } from "@/registry/new-york/ui/composer";
 
 // Example tools for the slash command dropdown

@@ -1,10 +1,10 @@
+import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight02Icon, HugeiconsIcon } from "@/components/icons";
 import { GitHub } from "@/components/icons/github";
 import { Footer } from "@/components/ui/footer";
 import { generateSEO, generateSoftwareSchema } from "@/lib/seo";
 import { RaisedButton } from "@/registry/new-york/ui/raised-button";
-import Image from "next/image";
-import Link from "next/link";
 
 export const metadata = generateSEO({
 	title: "GAIA UI - Open Source Components for AI Assistants",
