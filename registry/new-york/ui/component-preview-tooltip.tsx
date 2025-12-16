@@ -1,9 +1,9 @@
 "use client";
 
-import { type FC, type ReactNode, useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { type FC, type ReactNode, useEffect, useState } from "react";
 import { Tooltip, TooltipTrigger } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface ComponentPreviewTooltipProps {
 	componentName: string;

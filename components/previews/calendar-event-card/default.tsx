@@ -2,9 +2,9 @@
 
 import {
 	CalendarEventCard,
-	EventTitle,
-	EventTime,
 	EventLocation,
+	EventTime,
+	EventTitle,
 } from "@/registry/new-york/ui/calendar-event-card";
 
 export default function CalendarEventCardDefault() {

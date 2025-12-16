@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { siteConfig } from "./siteConfig";
 
 interface SEOProps {
@@ -339,7 +339,7 @@ export function generateComponentSEO({
 		"React component",
 		"UI component",
 		"TypeScript component",
-		...dependencies.map((dep) => dep.replace(/[@\/]/g, " ").trim()),
+		...dependencies.map((dep) => dep.replace(/[@/]/g, " ").trim()),
 	];
 
 	return generateSEO({

@@ -3,9 +3,9 @@
 import { useState } from "react";
 import {
 	CalendarEventCard,
-	EventTitle,
-	EventTime,
 	type EventStatus,
+	EventTime,
+	EventTitle,
 } from "@/registry/new-york/ui/calendar-event-card";
 
 export default function CalendarEventCardActions() {

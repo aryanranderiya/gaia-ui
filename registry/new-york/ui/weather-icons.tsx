@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 
 export interface IconProps extends React.SVGProps<SVGSVGElement> {
 	color?: string;
@@ -12,6 +12,8 @@ export const CloudAngledZapIcon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Storm"
+		role="img"
 		{...props}
 	>
 		<path
@@ -39,6 +41,8 @@ export const CloudLittleRainIcon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Light Rain"
+		role="img"
 		{...props}
 	>
 		<path
@@ -65,6 +69,8 @@ export const CloudAngledRainIcon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Rain"
+		role="img"
 		{...props}
 	>
 		<path
@@ -92,6 +98,8 @@ export const CloudSnowIcon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Snow"
+		role="img"
 		{...props}
 	>
 		<path
@@ -119,6 +127,8 @@ export const CloudFogIcon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Fog"
+		role="img"
 		{...props}
 	>
 		<path
@@ -157,6 +167,8 @@ export const CloudIcon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Cloud"
+		role="img"
 		{...props}
 	>
 		<path
@@ -177,6 +189,8 @@ export const FastWindIcon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Wind"
+		role="img"
 		{...props}
 	>
 		<path
@@ -215,6 +229,8 @@ export const Sun03Icon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Sun"
+		role="img"
 		{...props}
 	>
 		<path
@@ -239,6 +255,8 @@ export const Moon02Icon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Moon"
+		role="img"
 		{...props}
 	>
 		<path
@@ -259,6 +277,8 @@ export const Tornado02Icon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Tornado"
+		role="img"
 		{...props}
 	>
 		<path
@@ -302,6 +322,8 @@ export const DropletIcon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Droplet"
+		role="img"
 		{...props}
 	>
 		<path
@@ -327,6 +349,8 @@ export const VisionIcon: React.FC<IconProps> = (props) => (
 		height={24}
 		color={"#000000"}
 		fill={"none"}
+		aria-label="Vision"
+		role="img"
 		{...props}
 	>
 		<path

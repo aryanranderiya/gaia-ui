@@ -1,6 +1,14 @@
 "use client";
 
+import * as React from "react";
+import { type BundledLanguage, codeToHtml } from "shiki";
 import { CodeBlock } from "@/components/core/code-block";
+import {
+	Copy01Icon,
+	Download01Icon,
+	HugeiconsIcon,
+	Tick02Icon,
+} from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
 	Tooltip,
@@ -8,14 +16,6 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-	Tick02Icon,
-	Copy01Icon,
-	Download01Icon,
-	HugeiconsIcon,
-} from "@/components/icons";
-import * as React from "react";
-import { codeToHtml, type BundledLanguage } from "shiki";
 
 interface SourceCodeClientProps {
 	code: string;

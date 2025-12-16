@@ -1,5 +1,5 @@
-import { getNavigation } from "@/lib/navigation";
 import { Navbar } from "@/components/ui/navbar";
+import { getNavigation } from "@/lib/navigation";
 
 export function NavbarWrapper() {
 	const navigation = getNavigation();

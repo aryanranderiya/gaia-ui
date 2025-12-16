@@ -1,17 +1,17 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { type FC, type ReactNode, useCallback, useState } from "react";
 import {
-	CloudUploadIcon,
 	Cancel01Icon,
+	CloudUploadIcon,
 	File01Icon,
-	Upload01Icon,
 	FileUploadIcon,
 	HugeiconsIcon,
+	Upload01Icon,
 } from "@/components/icons";
-
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
 
 export interface DroppedFile {
 	id: string;
@@ -269,8 +269,9 @@ export const FileDropzone: FC<FileDropzoneProps> = ({
 							)}
 						>
 							{file.preview ? (
-								// eslint-disable-next-line @next/next/no-img-element
-								<img
+								<Image
+									width={40}
+									height={40}
 									src={file.preview}
 									alt={file.file.name}
 									className="h-10 w-10 rounded object-cover"

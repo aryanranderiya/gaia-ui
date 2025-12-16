@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes";
 import * as React from "react";
-import { Moon02Icon, Sun03Icon, HugeiconsIcon } from "@/components/icons";
+import { HugeiconsIcon, Moon02Icon, Sun03Icon } from "@/components/icons";
 import { Toggle } from "@/components/ui/toggle";
 
 export function ThemeToggle() {

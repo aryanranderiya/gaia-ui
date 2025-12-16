@@ -1,6 +1,6 @@
-import * as React from "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva } from "class-variance-authority";
+import type * as React from "react";
 import { ArrowDown01Icon, HugeiconsIcon } from "@/components/icons";
 
 import { cn } from "@/lib/utils";

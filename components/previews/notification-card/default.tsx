@@ -1,8 +1,8 @@
 "use client";
 
 import {
-	NotificationCard,
 	type ActionType,
+	NotificationCard,
 } from "@/registry/new-york/ui/notification-card";
 
 // Static dates for demo purposes - avoids React purity rules

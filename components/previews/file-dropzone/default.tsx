@@ -1,8 +1,8 @@
 "use client";
 
 import {
-	FileDropzone,
 	type DroppedFile,
+	FileDropzone,
 } from "@/registry/new-york/ui/file-dropzone";
 
 export default function FileDropzoneDefault() {

@@ -1,14 +1,13 @@
+import type { MDXComponents } from "mdx/types";
+import Link from "next/link";
 import { CodeBlock } from "@/components/core/code-block";
 import { ComponentPreview } from "@/components/core/component-preview";
 import { InstallCommand } from "@/components/core/install-command";
 import { SourceCode } from "@/components/core/source-code";
+import { Download01Icon, HugeiconsIcon } from "@/components/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { Download01Icon, HugeiconsIcon } from "@/components/icons";
-import type { MDXComponents } from "mdx/types";
-
 import { ComponentPreviewTooltip } from "@/registry/new-york/ui/component-preview-tooltip";
-import Link from "next/link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
 	return {
@@ -107,6 +106,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 			/>
 		),
 		img: ({ className, alt, ...props }) => (
+			// biome-ignore lint/performance/noImgElement: Markdown components have no specified width and height
 			<img
 				className={cn("rounded-md border", className)}
 				alt={alt}

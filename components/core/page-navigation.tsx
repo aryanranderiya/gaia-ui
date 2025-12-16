@@ -1,4 +1,4 @@
-import { NavSection } from "@/types/nav-item";
+import type { NavSection } from "@/types/nav-item";
 import { PageNavigationClient } from "./page-navigation-client";
 
 interface PageNavigationProps {

@@ -1,17 +1,17 @@
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { DocPageLayout } from "@/components/core/doc-page-layout";
-import { getMdxFile, getAllDocSlugs } from "@/lib/mdx";
+import { getAllDocSlugs, getMdxFile } from "@/lib/mdx";
 import {
-	generateSEO,
 	generateArticleSchema,
 	generateBreadcrumbSchema,
 	generateComponentSchema,
 	generateComponentSEO,
-	generateItemListSchema,
 	generateHowToSchema,
+	generateItemListSchema,
+	generateSEO,
 } from "@/lib/seo";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { FaSpinner } from "react-icons/fa";
 import registry from "@/registry.json";
 
 interface PageProps {

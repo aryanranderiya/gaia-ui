@@ -1,12 +1,12 @@
 "use client";
 
-import * as React from "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+import type * as React from "react";
 import {
-	Tick02Icon,
 	ArrowRight01Icon,
-	RadioButtonIcon,
 	HugeiconsIcon,
+	RadioButtonIcon,
+	Tick02Icon,
 } from "@/components/icons";
 
 import { cn } from "@/lib/utils";

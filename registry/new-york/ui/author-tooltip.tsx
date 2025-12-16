@@ -1,7 +1,7 @@
 "use client";
 
 import type * as React from "react";
-
+import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
 	Tooltip,
@@ -9,7 +9,6 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 export interface Author {
 	name: string;

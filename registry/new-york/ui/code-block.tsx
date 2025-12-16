@@ -1,15 +1,14 @@
 "use client";
 
-import { type FC, useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { type FC, useEffect, useState } from "react";
+import { type BundledLanguage, codeToHtml } from "shiki";
 import {
-	Tick02Icon,
 	Copy01Icon,
 	Download01Icon,
 	HugeiconsIcon,
+	Tick02Icon,
 } from "@/components/icons";
-
-import { codeToHtml, type BundledLanguage } from "shiki";
+import { cn } from "@/lib/utils";
 
 // Devicon class mapping for language icons
 const deviconMap: Record<string, string> = {
@@ -231,7 +230,7 @@ export const CodeBlock: FC<CodeBlockProps> = ({
 						{showLineNumbers && (
 							<div className="flex-shrink-0 py-4 pl-4 pr-2 select-none text-right text-sm text-zinc-400 dark:text-zinc-600">
 								{lines.map((_, i) => (
-									<div key={`line-${i}`}>{i + 1}</div>
+									<div key={`line--${_}-${i}`}>{i + 1}</div>
 								))}
 							</div>
 						)}

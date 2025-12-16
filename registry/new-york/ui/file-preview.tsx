@@ -1,17 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import type { FC } from "react";
 import {
-	File01Icon,
+	Archive01Icon,
+	Cancel01Icon,
 	DocumentCodeIcon,
+	File01Icon,
+	HugeiconsIcon,
 	Image01Icon,
+	Loading03Icon,
+	MusicNote01Icon,
 	Txt01Icon,
 	Video01Icon,
-	MusicNote01Icon,
-	Archive01Icon,
-	Loading03Icon,
-	Cancel01Icon,
-	HugeiconsIcon,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
@@ -259,8 +260,9 @@ export const FilePreview: FC<FilePreviewProps> = ({
 						{/* Image preview */}
 						{file.type.startsWith("image/") ? (
 							<div className="h-12 w-12 overflow-hidden rounded-md">
-								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img
+								<Image
+									width={48}
+									height={48}
 									src={file.url}
 									alt={file.name}
 									className="h-full w-full object-cover"

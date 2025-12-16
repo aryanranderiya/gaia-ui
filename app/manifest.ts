@@ -1,5 +1,5 @@
+import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/siteConfig";
-import { MetadataRoute } from "next";
 
 /**
  * Generate Web App Manifest for PWA support and better mobile experience

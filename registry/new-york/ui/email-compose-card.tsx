@@ -1,23 +1,27 @@
 "use client";
 
-import { Button } from "@heroui/react";
-import { Chip } from "@heroui/react";
-import { Input, Textarea } from "@heroui/react";
-import { Modal, ModalBody, ModalContent } from "@heroui/react";
-import { ScrollShadow } from "@heroui/react";
 import {
-	PencilEdit01Icon,
-	Cancel01Icon,
-	PlusSignIcon,
-	Mail01Icon,
-	Loading03Icon,
-	Tick02Icon,
-	HugeiconsIcon,
-} from "@/components/icons";
-
+	Button,
+	Chip,
+	Input,
+	Modal,
+	ModalBody,
+	ModalContent,
+	ScrollShadow,
+	Textarea,
+} from "@heroui/react";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
+import {
+	Cancel01Icon,
+	HugeiconsIcon,
+	Loading03Icon,
+	Mail01Icon,
+	PencilEdit01Icon,
+	PlusSignIcon,
+	Tick02Icon,
+} from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 // Email validation schema
@@ -185,7 +189,6 @@ export function EmailComposeCard({
 	const [isEditingBody, setIsEditingBody] = useState(false);
 
 	const [editData, setEditData] = useState<EmailData>(emailData);
-	const [errors, setErrors] = useState<Record<string, string>>({});
 
 	// Suggestions come from emailData.to - these are resolved email addresses from the agent
 	const [suggestions, setSuggestions] = useState<string[]>(emailData.to || []);
@@ -236,7 +239,6 @@ export function EmailComposeCard({
 				body: editData.body,
 			});
 
-			setErrors({});
 			return true;
 		} catch (error) {
 			if (error instanceof z.ZodError) {
@@ -246,7 +248,6 @@ export function EmailComposeCard({
 						newErrors[err.path[0].toString()] = err.message;
 					}
 				});
-				setErrors(newErrors);
 			}
 			return false;
 		}
@@ -357,7 +358,7 @@ export function EmailComposeCard({
 								size="sm"
 								onPress={() => setIsRecipientModalOpen(true)}
 								variant={selectedEmails.length === 0 ? "flat" : "light"}
-								isIconOnly={selectedEmails.length === 0 ? false : true}
+								isIconOnly={selectedEmails.length !== 0}
 								className={cn(
 									selectedEmails.length === 0
 										? ""

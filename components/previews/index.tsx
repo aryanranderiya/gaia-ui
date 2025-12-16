@@ -3,7 +3,7 @@
  * Auto-registers all preview components using dynamic imports
  */
 
-import { ComponentType } from "react";
+import type { ComponentType } from "react";
 
 type PreviewComponent = ComponentType<unknown>;
 

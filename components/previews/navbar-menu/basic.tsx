@@ -1,13 +1,13 @@
 "use client";
 
-import { NavbarWithMenu } from "@/registry/new-york/ui/navbar-menu";
 import {
 	CreditCardIcon,
+	HugeiconsIcon,
 	Idea01Icon,
 	MapsIcon,
 	Message01Icon,
-	HugeiconsIcon,
 } from "@/components/icons";
+import { NavbarWithMenu } from "@/registry/new-york/ui/navbar-menu";
 
 export default function NavbarMenuBasic() {
 	const sections = [

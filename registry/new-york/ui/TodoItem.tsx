@@ -2,7 +2,6 @@
 import type { FC } from "react";
 import {
 	ArrowRight01Icon,
-	ArrowRight02Icon,
 	Calendar03Icon,
 	Flag02Icon,
 	Folder02Icon,
@@ -90,7 +89,6 @@ export const TodoItem: FC<TodoItemProps> = ({
 							? "border-zinc-400 bg-zinc-400 dark:border-zinc-500 dark:bg-zinc-500"
 							: `${priorityStyle.borderColor} border-dashed bg-transparent`,
 					)}
-					aria-label={completed ? "Mark as incomplete" : "Mark as complete"}
 				>
 					{completed && (
 						<HugeiconsIcon icon={Tick02Icon} size={12} className="text-white" />

@@ -1,7 +1,7 @@
 "use client";
 
-import { SearchResultsTabs } from "@/registry/new-york/ui/search-results-tabs";
 import { MessageBubble } from "@/registry/new-york/ui/message-bubble";
+import { SearchResultsTabs } from "@/registry/new-york/ui/search-results-tabs";
 
 export default function SearchResultsTabsDefault() {
 	const searchResults = {

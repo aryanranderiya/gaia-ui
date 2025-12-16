@@ -1,12 +1,11 @@
 "use client";
 
+import type { SVGProps } from "react";
 import {
-	WorkflowCard,
 	type ToolCategoryConfig,
+	WorkflowCard,
 	type WorkflowStep,
 } from "@/registry/new-york/ui/workflow-card";
-
-import type { SVGProps } from "react";
 
 const Notion = (props: SVGProps<SVGSVGElement>) => (
 	<svg {...props} preserveAspectRatio="xMidYMid" viewBox="0 0 256 268">

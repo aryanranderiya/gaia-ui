@@ -1,9 +1,8 @@
 "use client";
 
-import { Globe02Icon, HugeiconsIcon } from "@/components/icons";
-
 import Image from "next/image";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
+import { Globe02Icon, HugeiconsIcon } from "@/components/icons";
 
 import {
 	Tooltip,

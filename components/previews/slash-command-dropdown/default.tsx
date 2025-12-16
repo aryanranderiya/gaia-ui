@@ -1,12 +1,12 @@
 "use client";
 
+import { Button } from "@heroui/react";
+import { useRef, useState } from "react";
+import { HugeiconsIcon, PlusSignIcon } from "@/components/icons";
 import {
 	SlashCommandDropdown,
 	type SlashCommandMatch,
 } from "@/registry/new-york/ui/slash-command-dropdown";
-import { useState, useRef } from "react";
-import { Button } from "@heroui/react";
-import { HugeiconsIcon, PlusSignIcon } from "@/components/icons";
 
 // Sample tools data
 const TOOLS = [

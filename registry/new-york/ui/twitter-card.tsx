@@ -1,17 +1,17 @@
 "use client";
 
+import Image from "next/image";
 import type { FC } from "react";
 import {
-	FavouriteIcon,
+	CheckmarkBadge02Icon,
 	Comment01Icon,
+	FavouriteIcon,
+	HugeiconsIcon,
+	MoreHorizontalIcon,
 	RepeatIcon,
 	Share01Icon,
-	MoreHorizontalIcon,
-	CheckmarkBadge02Icon,
-	HugeiconsIcon,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
-
 export interface TwitterCardProps {
 	author: {
 		name: string;
@@ -79,8 +79,9 @@ export const TwitterCard: FC<TwitterCardProps> = ({
 			{/* Author header */}
 			<div className="flex items-start justify-between">
 				<div className="flex items-start gap-3">
-					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img
+					<Image
+						width={48}
+						height={48}
 						src={author.avatar}
 						alt={author.name}
 						className="h-12 w-12 rounded-full object-cover"
@@ -124,7 +125,7 @@ export const TwitterCard: FC<TwitterCardProps> = ({
 			{/* Media */}
 			{media && (
 				<div className="mt-3 overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800">
-					{/* eslint-disable-next-line @next/next/no-img-element */}
+					{/** biome-ignore lint/performance/noImgElement: no specific height and width */}
 					<img
 						src={media}
 						alt="Tweet media"
@@ -142,8 +143,9 @@ export const TwitterCard: FC<TwitterCardProps> = ({
 					)}
 				>
 					<div className="flex items-center gap-2">
-						{/* eslint-disable-next-line @next/next/no-img-element */}
-						<img
+						<Image
+							width={20}
+							height={20}
 							src={quoted.author.avatar}
 							alt={quoted.author.name}
 							className="h-5 w-5 rounded-full"

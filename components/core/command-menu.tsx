@@ -1,4 +1,4 @@
-import { NavSection } from "@/types/nav-item";
+import type { NavSection } from "@/types/nav-item";
 import { CommandMenuClient } from "./command-menu-client";
 
 interface CommandMenuProps {

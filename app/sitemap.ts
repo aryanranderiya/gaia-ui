@@ -1,8 +1,8 @@
+import fs from "fs";
+import type { MetadataRoute } from "next";
 import { getAllDocSlugs } from "@/lib/mdx";
 import { siteConfig } from "@/lib/siteConfig";
 import registry from "@/registry.json";
-import fs from "fs";
-import { MetadataRoute } from "next";
 
 /**
  * Generate comprehensive dynamic sitemap for all pages

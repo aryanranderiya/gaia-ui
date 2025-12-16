@@ -1,8 +1,10 @@
 "use client";
 
-import type React from "react";
+import type { IconSvgElement } from "@hugeicons/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type React from "react";
 import {
 	Download05Icon,
 	Home09Icon,
@@ -16,8 +18,6 @@ import { cn } from "@/lib/utils";
 import { ComponentPreviewTooltip } from "@/registry/new-york/ui/component-preview-tooltip";
 import type { NavSection } from "@/types/nav-item";
 import { DiscordIcon, TwitterIcon } from "../icons/social-icons";
-import type { IconSvgElement } from "@hugeicons/react";
-import Image from "next/image";
 
 interface DocsSidebarClientProps {
 	navigation: NavSection[];

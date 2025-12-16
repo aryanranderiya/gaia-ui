@@ -1,6 +1,17 @@
 "use client";
 
 import {
+	Book01Icon,
+	CreditCardIcon,
+	HelpCircleIcon,
+	HugeiconsIcon,
+	Idea01Icon,
+	MapsIcon,
+	Message01Icon,
+	PencilIcon,
+	UserGroupIcon,
+} from "@/components/icons";
+import {
 	DiscordIcon,
 	Github,
 	LinkedinIcon,
@@ -9,17 +20,6 @@ import {
 	YoutubeIcon,
 } from "@/components/icons/social-icons";
 import { NavbarWithMenu } from "@/registry/new-york/ui/navbar-menu";
-import {
-	Book01Icon,
-	CreditCardIcon,
-	HelpCircleIcon,
-	Idea01Icon,
-	MapsIcon,
-	Message01Icon,
-	PencilIcon,
-	UserGroupIcon,
-	HugeiconsIcon,
-} from "@/components/icons";
 
 export default function NavbarMenuFull() {
 	const sections = [

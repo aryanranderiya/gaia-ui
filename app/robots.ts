@@ -1,5 +1,5 @@
+import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/siteConfig";
-import { MetadataRoute } from "next";
 
 /**
  * Generate robots.txt for search engine crawlers

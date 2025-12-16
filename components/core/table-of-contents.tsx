@@ -29,10 +29,14 @@ export function TableOfContents({ toc }: TableOfContentsProps) {
 		);
 
 		const headings = document.querySelectorAll("h2, h3, h4");
-		headings.forEach((heading) => observer.observe(heading));
+		headings.forEach((heading) => {
+			observer.observe(heading);
+		});
 
 		return () => {
-			headings.forEach((heading) => observer.unobserve(heading));
+			headings.forEach((heading) => {
+				observer.unobserve(heading);
+			});
 		};
 	}, []);
 

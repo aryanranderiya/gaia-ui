@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence } from "motion/react";
-import * as React from "react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
+import * as React from "react";
 import { ArrowDown01Icon, HugeiconsIcon } from "@/components/icons";
 
 import { cn } from "@/lib/utils";
@@ -81,7 +81,8 @@ const ListItem = React.forwardRef<
 				>
 					{backgroundImage && (
 						<>
-							<img
+							<Image
+								fill
 								src={backgroundImage}
 								alt={title}
 								className="absolute inset-0 z-0 h-full w-full object-cover transition-all group-hover:brightness-60"
@@ -130,7 +131,7 @@ const ListItem = React.forwardRef<
 
 ListItem.displayName = "ListItem";
 
-export function NavbarMenu({ activeMenu, sections, onClose }: NavbarMenuProps) {
+export function NavbarMenu({ activeMenu, sections }: NavbarMenuProps) {
 	const activeSection = sections.find((section) => section.id === activeMenu);
 
 	if (!activeSection) return null;
@@ -202,7 +203,6 @@ export function NavbarWithMenu({
 
 	return (
 		<div className="min-h-[350px] w-full bg-zinc-950 p-4 flex items-start justify-center transition">
-			{/* Remove this parent container to remove the background color and the height when needed. */}
 			<div
 				className="relative mx-auto w-screen max-w-4xl"
 				onMouseLeave={handleNavbarMouseLeave}
@@ -231,6 +231,7 @@ export function NavbarWithMenu({
 						{items.map((item) =>
 							item.type === "link" ? (
 								<button
+									type="button"
 									key={item.href}
 									className={cn(
 										"relative flex h-9 cursor-pointer items-center rounded-xl px-4 py-2 text-sm transition-colors hover:bg-zinc-800/40",
@@ -247,6 +248,7 @@ export function NavbarWithMenu({
 								</button>
 							) : (
 								<button
+									type="button"
 									key={item.menu}
 									className="relative flex h-9 cursor-pointer items-center rounded-xl px-4 py-2 text-sm text-zinc-400 capitalize transition-colors hover:text-zinc-100"
 									onMouseEnter={() => handleMouseEnter(item.menu)}
@@ -279,11 +281,7 @@ export function NavbarWithMenu({
 
 				<AnimatePresence>
 					{activeDropdown && (
-						<NavbarMenu
-							activeMenu={activeDropdown}
-							sections={sections}
-							onClose={() => setActiveDropdown(null)}
-						/>
+						<NavbarMenu activeMenu={activeDropdown} sections={sections} />
 					)}
 				</AnimatePresence>
 			</div>

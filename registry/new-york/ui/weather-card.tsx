@@ -1,28 +1,15 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import type React from "react";
+import { useMemo, useState } from "react";
 import {
+	HugeiconsIcon,
 	Location01Icon,
 	SunriseIcon,
 	SunsetIcon,
 	ThermometerIcon,
-	HugeiconsIcon,
 } from "@/components/icons";
-
-import {
-	CloudAngledZapIcon,
-	CloudAngledRainIcon,
-	CloudLittleRainIcon,
-	CloudSnowIcon,
-	CloudFogIcon,
-	CloudIcon,
-	DropletIcon,
-	FastWindIcon,
-	Moon02Icon,
-	Sun03Icon,
-	Tornado02Icon,
-	VisionIcon,
-} from "@/registry/new-york/ui/weather-icons";
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -30,9 +17,22 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { WeatherDetailItem } from "@/registry/new-york/ui/weather-detail-item";
 import { cn } from "@/lib/utils";
+import { WeatherDetailItem } from "@/registry/new-york/ui/weather-detail-item";
+import {
+	CloudAngledRainIcon,
+	CloudAngledZapIcon,
+	CloudFogIcon,
+	CloudIcon,
+	CloudLittleRainIcon,
+	CloudSnowIcon,
+	DropletIcon,
+	FastWindIcon,
+	Moon02Icon,
+	Sun03Icon,
+	Tornado02Icon,
+	VisionIcon,
+} from "@/registry/new-york/ui/weather-icons";
 
 export interface WeatherLocation {
 	city: string;
@@ -427,6 +427,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
 				weatherData.forecast.length > 0 && (
 					<div className="mt-4">
 						<button
+							type="button"
 							onClick={() => setForecastExpanded(!forecastExpanded)}
 							className="mb-2 flex w-full items-center justify-between text-sm font-normal text-white"
 						>
@@ -439,6 +440,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"
+								aria-hidden="true"
 							>
 								<path
 									strokeLinecap="round"
@@ -514,6 +516,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
 			{showDetails && (
 				<div className="mt-4">
 					<button
+						type="button"
 						onClick={() => setDetailsExpanded(!detailsExpanded)}
 						className="mb-2 flex w-full items-center justify-between text-sm font-normal text-white"
 					>
@@ -526,6 +529,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
+							aria-hidden="true"
 						>
 							<path
 								strokeLinecap="round"

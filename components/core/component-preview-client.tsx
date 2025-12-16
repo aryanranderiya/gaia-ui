@@ -1,11 +1,11 @@
 "use client";
 
+import * as React from "react";
+import { codeToHtml } from "shiki";
 import { CodeBlock } from "@/components/core/code-block";
 import { FullscreenButton } from "@/components/core/fullscreen-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import * as React from "react";
-import { codeToHtml } from "shiki";
 
 interface ComponentPreviewClientProps
 	extends React.HTMLAttributes<HTMLDivElement> {

@@ -1,8 +1,8 @@
+import Link from "next/link";
+import { ArrowRight02Icon, HugeiconsIcon } from "@/components/icons";
+import { GitHub } from "@/components/icons/github";
 import { generateSEO, generateSoftwareSchema } from "@/lib/seo";
 import { RaisedButton } from "@/registry/new-york/ui/raised-button";
-import { ArrowRight02Icon, HugeiconsIcon } from "@/components/icons";
-import Link from "next/link";
-import { GitHub } from "@/components/icons/github";
 
 // Enhanced metadata for the homepage
 export const metadata = generateSEO({
@@ -28,10 +28,9 @@ export default function Home() {
 
 	return (
 		<>
-			{/* JSON-LD Structured Data for Software */}
 			<script
 				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: json ld schema is okay
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: json schema
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
 			/>
 			<div className="relative px-4">

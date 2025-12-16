@@ -1,13 +1,13 @@
 "use client";
 
-import { type FC } from "react";
+import Image from "next/image";
+import type { FC } from "react";
 import {
-	PlayIcon,
 	FlashIcon,
-	Loading03Icon,
 	HugeiconsIcon,
+	Loading03Icon,
+	PlayIcon,
 } from "@/components/icons";
-
 import { cn } from "@/lib/utils";
 
 // Tool category icons with colors
@@ -114,13 +114,12 @@ const CategoryIcon: FC<{
 				)}
 			>
 				{categoryConfig.imageUrl ? (
-					<img
+					<Image
 						src={categoryConfig.imageUrl}
 						alt={category}
 						className="h-full w-full object-cover"
 					/>
 				) : categoryConfig.icon ? (
-					// @ts-ignore - handling both Component and Node
 					typeof categoryConfig.icon === "function" ? (
 						<categoryConfig.icon className="h-full w-full" />
 					) : (
@@ -167,7 +166,8 @@ export const WorkflowCard: FC<WorkflowCardProps> = ({
 	const buttonVariant = variant === "user" ? "flat" : "solid";
 
 	return (
-		<div
+		<button
+			type="button"
 			className={cn(
 				"group relative z-[1] flex h-full min-h-fit w-full flex-col gap-2 rounded-3xl outline-1 p-4 transition-all select-none",
 				"bg-zinc-100 outline-zinc-200 dark:bg-zinc-800 dark:outline-zinc-800/70",
@@ -305,6 +305,6 @@ export const WorkflowCard: FC<WorkflowCardProps> = ({
 					)}
 				</div>
 			</div>
-		</div>
+		</button>
 	);
 };

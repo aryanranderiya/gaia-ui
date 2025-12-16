@@ -1,9 +1,9 @@
-import { TableOfContents } from "@/components/core/table-of-contents";
-import { PageNavigation } from "@/components/core/page-navigation";
-import { getNavigation } from "@/lib/navigation";
 import Link from "next/link";
-import { ArrowRight02Icon, HugeiconsIcon } from "@/components/icons";
 import * as React from "react";
+import { PageNavigation } from "@/components/core/page-navigation";
+import { TableOfContents } from "@/components/core/table-of-contents";
+import { ArrowRight02Icon, HugeiconsIcon } from "@/components/icons";
+import { getNavigation } from "@/lib/navigation";
 
 interface TocEntry {
 	id: string;

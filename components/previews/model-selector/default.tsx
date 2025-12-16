@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import {
-	ModelSelector,
 	type AIModel,
+	ModelSelector,
 } from "@/registry/new-york/ui/model-selector";
 
 const models: AIModel[] = [

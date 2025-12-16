@@ -1,5 +1,5 @@
+import path from "node:path";
 import fs from "fs";
-import path from "path";
 
 /**
  * Read source code from a file in the project

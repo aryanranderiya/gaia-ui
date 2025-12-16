@@ -1,7 +1,7 @@
-import { getSourceCode } from "@/lib/source";
-import * as React from "react";
-import { ComponentPreviewClient } from "./component-preview-client";
+import type * as React from "react";
 import { getPreviewComponent } from "@/components/previews";
+import { getSourceCode } from "@/lib/source";
+import { ComponentPreviewClient } from "./component-preview-client";
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
 	name?: string;

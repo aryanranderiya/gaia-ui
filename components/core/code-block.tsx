@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import type * as React from "react";
 import { CopyButton } from "@/components/core/copy-button";
-import * as React from "react";
+import { cn } from "@/lib/utils";
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLPreElement> {
 	children: React.ReactNode;

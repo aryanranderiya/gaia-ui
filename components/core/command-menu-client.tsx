@@ -1,5 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import * as React from "react";
+import {
+	File01Icon,
+	GitPullRequestIcon,
+	Home01Icon,
+	HugeiconsIcon,
+	Loading03Icon,
+	Package01Icon,
+} from "@/components/icons";
 import {
 	CommandDialog,
 	CommandEmpty,
@@ -10,16 +20,6 @@ import {
 	CommandSeparator,
 } from "@/components/ui/command";
 import type { NavSection } from "@/types/nav-item";
-import {
-	Loading03Icon,
-	File01Icon,
-	Home01Icon,
-	Package01Icon,
-	GitPullRequestIcon,
-	HugeiconsIcon,
-} from "@/components/icons";
-import { useRouter } from "next/navigation";
-import * as React from "react";
 
 interface CommandMenuClientProps {
 	open: boolean;

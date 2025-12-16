@@ -1,3 +1,4 @@
+import type { IconSvgElement } from "@hugeicons/react";
 import {
 	Brain02Icon,
 	Calendar03Icon,
@@ -20,7 +21,6 @@ import {
 	Task01Icon,
 	VideoReplayIcon,
 } from "@/components/icons";
-import { IconSvgElement } from "@hugeicons/react";
 
 export interface IconProps {
 	size?: number;

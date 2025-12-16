@@ -1,18 +1,18 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 import {
-	Tick02Icon,
 	ArrowLeft02Icon,
 	ArrowRight02Icon,
 	Copy01Icon,
 	HugeiconsIcon,
+	Tick02Icon,
 } from "@/components/icons";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import type { NavSection } from "@/types/nav-item";
 import { Footer } from "../ui/footer";
-import { NavSection } from "@/types/nav-item";
 
 interface PageNavigationClientProps {
 	position?: "top" | "bottom";

@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef } from "react";
-import { Tag01Icon, Cancel01Icon, HugeiconsIcon } from "@/components/icons";
+import type React from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { Cancel01Icon, HugeiconsIcon, Tag01Icon } from "@/components/icons";
 
 import { cn } from "@/lib/utils";
-import { getToolCategoryIcon, formatToolName } from "@/lib/utils/tool-icons";
+import { formatToolName, getToolCategoryIcon } from "@/lib/utils/tool-icons";
 
 export interface Tool {
 	name: string;
@@ -113,7 +114,6 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 				boxShadow: "0px -18px 30px 5px rgba(0, 0, 0, 0.3)",
 				...style,
 			}}
-			onClick={(e) => e.stopPropagation()}
 			tabIndex={-1}
 		>
 			{/* Header section - Only show when opened via button */}
@@ -121,6 +121,7 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 				<div className="flex items-center justify-between p-3 border-b border-zinc-800">
 					<div className="text-sm font-medium text-zinc-300">Browse Tools</div>
 					<button
+						type="button"
 						onClick={onClose}
 						className="rounded-full p-1 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 transition-colors"
 						aria-label="Close"
@@ -136,6 +137,7 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 					<div className="flex overflow-x-auto px-2 py-2 gap-1 scrollbar-hide">
 						{computedCategories.map((category) => (
 							<button
+								type="button"
 								key={category}
 								onClick={() => onCategoryChange?.(category)}
 								className={cn(
@@ -180,7 +182,8 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 					filteredMatches.map((match, index) => {
 						const isSelected = index === selectedIndex;
 						return (
-							<div
+							<button
+								type="button"
 								key={`${match.tool.category}-${match.tool.name}`}
 								data-index={index}
 								className={cn(
@@ -217,7 +220,7 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 										)}
 									</div>
 								</div>
-							</div>
+							</button>
 						);
 					})
 				)}

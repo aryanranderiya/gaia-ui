@@ -1,5 +1,5 @@
+import path from "node:path";
 import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
 
 const DOCS_PATH = path.join(process.cwd(), "content/docs");
@@ -23,9 +23,9 @@ export interface DocMetadata {
 export function extractTocFromMdx(content: string): TocEntry[] {
 	const toc: TocEntry[] = [];
 	const headingRegex = /^(#{2,4})\s+(.+)$/gm;
-	let match;
+	const match = headingRegex.exec(content);
 
-	while ((match = headingRegex.exec(content)) !== null) {
+	while (match !== null) {
 		const level = match[1].length;
 		const text = match[2].trim();
 
@@ -47,7 +47,7 @@ export function extractTocFromMdx(content: string): TocEntry[] {
  * Get MDX file metadata and content
  */
 export function getMdxFile(slug: string[]) {
-	const filePath = path.join(DOCS_PATH, ...slug) + ".mdx";
+	const filePath = `${path.join(DOCS_PATH, ...slug)}.mdx`;
 
 	if (!fs.existsSync(filePath)) {
 		return null;

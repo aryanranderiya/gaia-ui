@@ -7,15 +7,15 @@
  * Displays goal progress with status badges and step tracking
  */
 
-import { cn } from "@/lib/utils";
+import type { FC } from "react";
 import {
+	ArrowRight01Icon,
 	Calendar03Icon,
 	CheckmarkCircle02Icon,
-	ArrowRight01Icon,
-	MoreVerticalIcon,
 	HugeiconsIcon,
+	MoreVerticalIcon,
 } from "@/components/icons";
-import { type FC } from "react";
+import { cn } from "@/lib/utils";
 
 export type GoalStatus = "not_started" | "in_progress" | "completed";
 

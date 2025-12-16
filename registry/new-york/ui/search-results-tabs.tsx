@@ -1,10 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Globe02Icon, News01Icon, HugeiconsIcon } from "@/components/icons";
-
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
+import { HugeiconsIcon, News01Icon } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import {

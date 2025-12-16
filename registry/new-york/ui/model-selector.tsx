@@ -1,12 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import type { FC } from "react";
 import { useState } from "react";
 import {
-	Tick02Icon,
-	ArrowDown01Icon,
 	AiMagicIcon,
+	ArrowDown01Icon,
 	HugeiconsIcon,
+	Tick02Icon,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
@@ -61,8 +62,9 @@ export const ModelSelector: FC<ModelSelectorProps> = ({
 			>
 				<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-zinc-200 dark:bg-zinc-800 dark:ring-zinc-700 text-zinc-900 dark:text-zinc-100 overflow-hidden">
 					{selectedModel.icon ? (
-						// eslint-disable-next-line @next/next/no-img-element
-						<img
+						<Image
+							width={40}
+							height={40}
 							src={selectedModel.icon}
 							alt={selectedModel.name}
 							className="h-full w-full object-cover"
@@ -144,7 +146,9 @@ export const ModelSelector: FC<ModelSelectorProps> = ({
 										>
 											{model.icon ? (
 												// eslint-disable-next-line @next/next/no-img-element
-												<img
+												<Image
+													width={36}
+													height={36}
 													src={model.icon}
 													alt={model.name}
 													className="h-full w-full object-cover"

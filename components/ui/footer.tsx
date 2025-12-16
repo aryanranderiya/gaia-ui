@@ -1,5 +1,5 @@
-import { siteConfig } from "@/lib/siteConfig";
 import Link from "next/link";
+import { siteConfig } from "@/lib/siteConfig";
 
 export function Footer() {
 	return (
