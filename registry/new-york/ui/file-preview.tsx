@@ -220,8 +220,12 @@ export const FilePreview: FC<FilePreviewProps> = ({
 					<div
 						key={file.id}
 						className={cn(
-							"group relative flex items-center rounded-xl transition-all",
-							"bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700",
+							// Base styles - each file is its own group for hover
+							"group/file relative flex items-center rounded-xl transition-all",
+							// Lighter background than composer (zinc-700 instead of zinc-800)
+							// Light mode: zinc-100 -> zinc-200 on hover
+							// Dark mode: zinc-700 -> zinc-600 on hover
+							"bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600",
 							file.type.startsWith("image/")
 								? "h-14 w-14 justify-center"
 								: "min-w-[180px] max-w-[220px] p-2 pr-8",
@@ -238,21 +242,25 @@ export const FilePreview: FC<FilePreviewProps> = ({
 							</div>
 						)}
 
-						{/* Remove button */}
+						{/* Remove button - cursor-pointer, only shows on this specific file's hover */}
 						{onRemove && (
 							<button
 								type="button"
 								onClick={() => onRemove(file.id)}
 								className={cn(
-									"absolute top-0 right-0 z-10 flex h-6 w-6 scale-90 items-center justify-center rounded-full opacity-0 transition-all group-hover:opacity-100",
-									"bg-zinc-300 hover:bg-zinc-400 dark:bg-zinc-600 dark:hover:bg-zinc-500",
+									// Position and base styles
+									"absolute -top-1 -right-1 z-10 flex h-5 w-5 items-center justify-center rounded-full",
+									// Hidden by default, shows on group-hover/file
+									"opacity-0 scale-75 transition-all duration-150 group-hover/file:opacity-100 group-hover/file:scale-100",
+									// Background colors with cursor-pointer
+									"cursor-pointer bg-zinc-400 hover:bg-zinc-500 dark:bg-zinc-500 dark:hover:bg-zinc-400",
 								)}
 								aria-label={`Remove ${file.name}`}
 							>
 								<HugeiconsIcon
 									icon={Cancel01Icon}
-									size={12}
-									className="text-zinc-700 dark:text-white"
+									size={10}
+									className="text-white"
 								/>
 							</button>
 						)}
@@ -271,7 +279,7 @@ export const FilePreview: FC<FilePreviewProps> = ({
 						) : (
 							<>
 								{/* File icon */}
-								<div className="mr-3 flex h-10 w-10 items-center justify-center rounded-md bg-zinc-200 dark:bg-zinc-700">
+								<div className="mr-3 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-300 dark:bg-zinc-600">
 									{getFileIcon(file.type, file.name)}
 								</div>
 								{/* File info */}
@@ -281,7 +289,7 @@ export const FilePreview: FC<FilePreviewProps> = ({
 											? `${file.name.substring(0, 15)}...`
 											: file.name}
 									</p>
-									<span className="text-xs text-zinc-500 dark:text-zinc-400">
+									<span className="text-xs text-zinc-600 dark:text-zinc-400">
 										{getFormattedFileType(file.type, file.name)}
 									</span>
 								</div>

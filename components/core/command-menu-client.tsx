@@ -1,14 +1,21 @@
 "use client";
 
+import type { IconSvgElement } from "@hugeicons/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import {
+	Download05Icon,
 	File01Icon,
 	GitPullRequestIcon,
 	Home01Icon,
+	Home09Icon,
 	HugeiconsIcon,
-	Loading03Icon,
+	MapsIcon,
 	Package01Icon,
+	ShapeCollectionIcon,
+	StatusIcon,
+	UserLove01Icon,
 } from "@/components/icons";
 import {
 	CommandDialog,
@@ -20,6 +27,22 @@ import {
 	CommandSeparator,
 } from "@/components/ui/command";
 import type { NavSection } from "@/types/nav-item";
+import { DiscordIcon, TwitterIcon } from "../icons/social-icons";
+
+// Map page titles to icons (same as sidebar)
+const pageIcons: Record<string, IconSvgElement> = {
+	Introduction: Home09Icon,
+	Components: ShapeCollectionIcon,
+	Installation: Download05Icon,
+	"Status - Beta": StatusIcon,
+	Roadmap: MapsIcon,
+	Contributors: UserLove01Icon,
+};
+
+const socialIcons: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
+	Twitter: TwitterIcon,
+	Discord: DiscordIcon,
+};
 
 interface CommandMenuClientProps {
 	open: boolean;
@@ -54,6 +77,37 @@ export function CommandMenuClient({
 		[setOpen],
 	);
 
+	// Render icon for an item
+	const renderIcon = (item: { title: string; icon?: string }) => {
+		// Check for custom icon (URL)
+		if (item.icon) {
+			return (
+				<Image
+					src={item.icon}
+					alt={item.title}
+					width={16}
+					height={16}
+					className="mr-2"
+				/>
+			);
+		}
+
+		// Check for social icons
+		const SocialIcon = socialIcons[item.title];
+		if (SocialIcon) {
+			return <SocialIcon className="mr-2 h-4 w-4" />;
+		}
+
+		// Check for page icons
+		const pageIcon = pageIcons[item.title];
+		if (pageIcon) {
+			return <HugeiconsIcon icon={pageIcon} size={16} className="mr-2" />;
+		}
+
+		// Default: component icon
+		return <HugeiconsIcon icon={Package01Icon} size={16} className="mr-2" />;
+	};
+
 	return (
 		<CommandDialog open={open} onOpenChange={setOpen}>
 			<CommandInput placeholder="Type a command or search..." />
@@ -71,7 +125,7 @@ export function CommandMenuClient({
 					<CommandItem
 						onSelect={() => runCommand(() => router.push("/docs/installation"))}
 					>
-						<HugeiconsIcon icon={Package01Icon} size={16} className="mr-2" />
+						<HugeiconsIcon icon={Download05Icon} size={16} className="mr-2" />
 						<span>Installation</span>
 					</CommandItem>
 				</CommandGroup>
@@ -112,11 +166,7 @@ export function CommandMenuClient({
 										})
 									}
 								>
-									<HugeiconsIcon
-										icon={Loading03Icon}
-										size={16}
-										className="mr-2"
-									/>
+									{renderIcon(item)}
 									<span>{item.title}</span>
 								</CommandItem>
 							))}

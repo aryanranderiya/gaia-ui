@@ -55,15 +55,41 @@ export default function Example() {
 }
 ```
 
+### With Custom Trigger
+
+You can pass a custom trigger element instead of the default avatar:
+
+```tsx
+<AuthorTooltip 
+  author={author}
+  trigger={<button>Hover me</button>}
+/>
+```
+
+### With Additional Content
+
+Add extra content inside the tooltip with the `children` prop:
+
+```tsx
+<AuthorTooltip author={author}>
+  <div className="text-xs">
+    <p>Commits: 150</p>
+    <p>Additions: +5,000</p>
+  </div>
+</AuthorTooltip>
+```
+
 ## Props
 
 ### AuthorTooltip
 
-| Prop            | Type                 | Default                              | Description               |
-| --------------- | -------------------- | ------------------------------------ | ------------------------- |
-| author          | Author               | -                                    | Author information object |
-| avatarSize      | "sm" \| "md" \| "lg" | "sm"                                 | Size of the avatar        |
-| avatarClassName | string               | "cursor-help border-2 border-border" | Additional CSS classes    |
+| Prop            | Type                       | Default                              | Description                               |
+| --------------- | -------------------------- | ------------------------------------ | ----------------------------------------- |
+| author          | Author                     | -                                    | Author information object                 |
+| avatarSize      | "sm" \| "md" \| "lg" \| "xl" | "sm"                               | Size of the avatar                        |
+| avatarClassName | string                     | "cursor-help border-2 border-border" | Additional CSS classes for avatar         |
+| trigger         | ReactNode                  | -                                    | Custom trigger element (replaces avatar)  |
+| children        | ReactNode                  | -                                    | Additional content to render in tooltip   |
 
 ### Author Type
 
@@ -75,3 +101,4 @@ export default function Example() {
 | github   | string | No       | GitHub profile URL           |
 | twitter  | string | No       | Twitter/X profile URL        |
 | linkedin | string | No       | LinkedIn profile URL         |
+

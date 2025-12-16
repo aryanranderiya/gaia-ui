@@ -7,9 +7,9 @@ export interface IconProps extends React.SVGProps<SVGSVGElement> {
 export const Github: React.FC<IconProps> = (props) => {
 	return (
 		<svg
-			height="100"
+			height="16"
 			viewBox="0 0 438.549 438.549"
-			width="100"
+			width="16"
 			aria-label="GitHub"
 			role="img"
 			{...props}

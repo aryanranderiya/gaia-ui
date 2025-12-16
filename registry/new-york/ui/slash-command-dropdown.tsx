@@ -2,15 +2,24 @@
 
 import type React from "react";
 import { useEffect, useMemo, useRef } from "react";
-import { Cancel01Icon, HugeiconsIcon, Tag01Icon } from "@/components/icons";
+import {
+	Cancel01Icon,
+	HugeiconsIcon,
+	Tag01Icon,
+	ToolsIcon,
+} from "@/components/icons";
 
 import { cn } from "@/lib/utils";
 import { formatToolName, getToolCategoryIcon } from "@/lib/utils/tool-icons";
 
 export interface Tool {
+	/** Unique tool identifier */
 	name: string;
+	/** Category for grouping tools */
 	category: string;
+	/** Description shown below tool name */
 	description?: string;
+	/** Custom icon (defaults to category icon) */
 	icon?: React.ReactNode;
 }
 
@@ -20,19 +29,93 @@ export interface SlashCommandMatch {
 }
 
 interface SlashCommandDropdownProps {
+	/** List of tools to display */
 	matches: SlashCommandMatch[];
+	/** Currently selected tool index */
 	selectedIndex: number;
+	/** Callback when a tool is selected */
 	onSelect: (tool: SlashCommandMatch) => void;
+	/** Callback when dropdown is closed */
 	onClose: () => void;
+	/** Position config for the dropdown */
 	position: { top?: number; bottom?: number; left: number; width?: number };
+	/** Whether the dropdown is visible */
 	isVisible: boolean;
+	/** If opened via button (shows header) */
 	openedViaButton?: boolean;
+	/** Currently selected category filter */
 	selectedCategory?: string;
+	/** Available categories */
 	categories?: string[];
+	/** Callback when category changes */
 	onCategoryChange?: (category: string) => void;
+	/** Additional CSS classes */
 	className?: string;
+	/** Additional inline styles */
 	style?: React.CSSProperties;
 }
+
+// Default icon size for consistency
+const ICON_SIZE = 20;
+const CATEGORY_ICON_SIZE = 16;
+
+/**
+ * Get a default icon for a tool based on its category
+ * Always returns an icon - no tool should be without one
+ */
+const getDefaultToolIcon = (
+	tool: Tool,
+	size: number = ICON_SIZE,
+): React.ReactNode => {
+	// If tool has custom icon, use it
+	if (tool.icon) return tool.icon;
+
+	// Try to get category icon
+	const categoryIcon = getToolCategoryIcon(tool.category, {
+		showBackground: false,
+		width: size,
+		height: size,
+	});
+
+	// If category icon exists, use it
+	if (categoryIcon) return categoryIcon;
+
+	return (
+		<HugeiconsIcon icon={ToolsIcon} size={size} className="text-zinc-400" />
+	);
+};
+
+/**
+ * Get icon for a category tab
+ */
+const getCategoryTabIcon = (category: string): React.ReactNode => {
+	if (category === "all") {
+		return (
+			<HugeiconsIcon
+				icon={Tag01Icon}
+				size={CATEGORY_ICON_SIZE}
+				className="text-current"
+			/>
+		);
+	}
+
+	const icon = getToolCategoryIcon(category, {
+		showBackground: false,
+		width: CATEGORY_ICON_SIZE,
+		height: CATEGORY_ICON_SIZE,
+	});
+
+	// Fallback for categories without icons
+	return (
+		icon || (
+			<HugeiconsIcon
+				icon={ToolsIcon}
+				size={CATEGORY_ICON_SIZE}
+				className="text-current"
+			/>
+		)
+	);
+};
 
 export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 	matches,
@@ -100,30 +183,37 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 		<div
 			ref={dropdownRef}
 			className={cn(
-				"fixed z-[200] overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-900/95 backdrop-blur-xl shadow-2xl",
+				// Base styles
+				"fixed z-[200] overflow-hidden rounded-2xl",
+				// Light mode support
+				"border border-zinc-200 bg-white/95 dark:border-zinc-800 dark:bg-zinc-900/95",
+				"backdrop-blur-xl shadow-2xl",
+				// Animation
+				"animate-in fade-in-0 slide-in-from-bottom-2 duration-200",
 				className,
 			)}
 			style={{
 				...(position.top !== undefined && { top: 0, height: position.top }),
 				...(position.bottom !== undefined && {
-					bottom: `calc(100vh - ${position.bottom - 2}px)`,
-					maxHeight: position.bottom,
+					bottom: `calc(100vh - ${position.bottom - 8}px)`,
+					maxHeight: Math.min(position.bottom - 16, 400),
 				}),
 				left: position.left,
 				width: position.width,
-				boxShadow: "0px -18px 30px 5px rgba(0, 0, 0, 0.3)",
 				...style,
 			}}
 			tabIndex={-1}
 		>
 			{/* Header section - Only show when opened via button */}
 			{openedViaButton && (
-				<div className="flex items-center justify-between p-3 border-b border-zinc-800">
-					<div className="text-sm font-medium text-zinc-300">Browse Tools</div>
+				<div className="flex items-center justify-between pl-5 pr-2 py-1">
+					<div className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
+						Browse Tools
+					</div>
 					<button
 						type="button"
 						onClick={onClose}
-						className="rounded-full p-1 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 transition-colors"
+						className="cursor-pointer rounded-full p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors"
 						aria-label="Close"
 					>
 						<HugeiconsIcon icon={Cancel01Icon} size={16} />
@@ -133,33 +223,23 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 
 			{/* Category Tabs */}
 			{computedCategories.length > 1 && (
-				<div className="border-b border-zinc-800">
-					<div className="flex overflow-x-auto px-2 py-2 gap-1 scrollbar-hide">
+				<div>
+					<div className="flex overflow-x-auto px-3 py-1 gap-1.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
 						{computedCategories.map((category) => (
 							<button
 								type="button"
 								key={category}
 								onClick={() => onCategoryChange?.(category)}
 								className={cn(
-									"flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium whitespace-nowrap transition-all",
+									// Base styles
+									"flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium whitespace-nowrap cursor-pointer transition-all",
+									// Selected state
 									selectedCategory === category
-										? "bg-zinc-700/40 text-white"
-										: "text-zinc-400 hover:bg-white/10 hover:text-zinc-300",
+										? "bg-zinc-100 text-zinc-900 dark:bg-zinc-700/50 dark:text-white"
+										: "text-zinc-500 hover:bg-zinc-50 hover:text-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-300",
 								)}
 							>
-								{category === "all" ? (
-									<HugeiconsIcon
-										icon={Tag01Icon}
-										size={16}
-										className="text-gray-400"
-									/>
-								) : (
-									getToolCategoryIcon(category, {
-										showBackground: false,
-										width: 16,
-										height: 16,
-									})
-								)}
+								{getCategoryTabIcon(category)}
 								<span>
 									{category === "all" ? "All" : formatToolName(category)}
 								</span>
@@ -172,10 +252,10 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 			{/* Tool List */}
 			<div
 				ref={scrollContainerRef}
-				className="max-h-[400px] overflow-y-auto py-2"
+				className="max-h-[200px] overflow-y-auto py-1.5"
 			>
 				{filteredMatches.length === 0 ? (
-					<div className="px-4 py-8 text-center text-sm text-zinc-400">
+					<div className="px-4 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
 						No tools found
 					</div>
 				) : (
@@ -187,36 +267,37 @@ export const SlashCommandDropdown: React.FC<SlashCommandDropdownProps> = ({
 								key={`${match.tool.category}-${match.tool.name}`}
 								data-index={index}
 								className={cn(
-									"mx-2 mb-1 cursor-pointer rounded-xl transition-all duration-150",
-									isSelected ? "bg-zinc-700/40" : "hover:bg-white/5",
+									// Base styles - full width with consistent padding
+									"w-full text-left mx-0 px-3 py-0 cursor-pointer transition-all duration-150",
+									// Selected/hover states with light mode support
+									isSelected
+										? "bg-zinc-100 dark:bg-zinc-700/40"
+										: "hover:bg-zinc-50 dark:hover:bg-zinc-800/40",
 								)}
 								onClick={() => onSelect(match)}
 							>
-								<div className="flex items-center gap-2 p-2">
-									{/* Icon */}
-									<div className="flex-shrink-0">
-										{match.tool.icon ||
-											getToolCategoryIcon(match.tool.category, {
-												showBackground: false,
-											})}
+								<div className="flex items-center gap-3 py-2.5 px-1">
+									{/* Icon container - fixed size for consistency */}
+									<div className="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800">
+										{getDefaultToolIcon(match.tool, ICON_SIZE)}
 									</div>
 
-									{/* Content */}
+									{/* Content - fills remaining space */}
 									<div className="min-w-0 flex-1">
-										<div className="flex items-center justify-between gap-2">
-											<span className="truncate text-sm text-zinc-200">
+										<div className="flex items-center justify-between gap-3">
+											<span className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-100">
 												{formatToolName(match.tool.name)}
 											</span>
 											{selectedCategory === "all" && (
-												<span className="flex-shrink-0 rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-400">
+												<span className="flex-shrink-0 rounded-md bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-xs text-zinc-500 dark:text-zinc-400">
 													{formatToolName(match.tool.category)}
 												</span>
 											)}
 										</div>
 										{match.tool.description && (
-											<div className="text-xs text-zinc-500 mt-0.5">
+											<p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 truncate">
 												{match.tool.description}
-											</div>
+											</p>
 										)}
 									</div>
 								</div>

@@ -5,7 +5,7 @@ export function Footer() {
 	return (
 		<footer className="mt-6 md:py-0">
 			<div className="container flex flex-col items-center justify-center gap-4 md:h-16 md:flex-row">
-				<p className="text-center text-sm leading-loose text-muted-foreground flex items-center gap-2">
+				<div className="text-center text-sm leading-loose text-muted-foreground flex items-center gap-2">
 					Made with ❤️ by
 					<Link
 						href={siteConfig.links.experienceCompany}
@@ -26,7 +26,7 @@ export function Footer() {
 						</svg>
 						The Experience Company.
 					</Link>
-					<div className="space-x-1">
+					<span className="space-x-1">
 						<span>Source code available on</span>
 						<Link
 							href={siteConfig.links.github}
@@ -36,8 +36,8 @@ export function Footer() {
 						>
 							GitHub
 						</Link>
-					</div>
-				</p>
+					</span>
+				</div>
 			</div>
 		</footer>
 	);
