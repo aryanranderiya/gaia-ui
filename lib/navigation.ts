@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { NavItem, NavSection } from "@/types/nav-item";
+import type { NavItem, NavSection } from "@/types/nav-item";
 
 const DOCS_PATH = path.join(process.cwd(), "content/docs");
 
@@ -9,100 +9,114 @@ const DOCS_PATH = path.join(process.cwd(), "content/docs");
  * Get navigation items by scanning the docs directory and reading frontmatter
  */
 export function getNavigation(): NavSection[] {
-  const sections: NavSection[] = [];
+	const sections: NavSection[] = [];
 
-  // Getting Started section - always first
-  const gettingStartedItems: NavItem[] = [];
+	// Getting Started section - always first
+	const gettingStartedItems: NavItem[] = [];
 
-  // Add index (Introduction)
-  const indexPath = path.join(DOCS_PATH, "index.mdx");
-  if (fs.existsSync(indexPath)) {
-    const fileContent = fs.readFileSync(indexPath, "utf8");
-    const { data } = matter(fileContent);
-    gettingStartedItems.push({
-      title: data.title || "Introduction",
-      href: "/docs",
-    });
-  }
+	sections.push({
+		title: "",
+		items: [
+			{
+				title: "Discord",
+				href: "https://discord.heygaia.io",
+			},
+			{
+				title: "Twitter",
+				href: "https://twitter.com/trygaia",
+			},
+		],
+	});
 
-  // Add other root-level docs
-  const rootFiles = fs
-    .readdirSync(DOCS_PATH)
-    .filter((file) => file.endsWith(".mdx") && file !== "index.mdx");
+	// Add index (Introduction)
+	const indexPath = path.join(DOCS_PATH, "index.mdx");
+	if (fs.existsSync(indexPath)) {
+		const fileContent = fs.readFileSync(indexPath, "utf8");
+		const { data } = matter(fileContent);
+		gettingStartedItems.push({
+			title: data.title || "Introduction",
+			href: "/docs",
+		});
+	}
 
-  for (const file of rootFiles) {
-    const filePath = path.join(DOCS_PATH, file);
-    const fileContent = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContent);
-    const slug = file.replace(/\.mdx$/, "");
+	// Add other root-level docs
+	const rootFiles = fs
+		.readdirSync(DOCS_PATH)
+		.filter((file) => file.endsWith(".mdx") && file !== "index.mdx");
 
-    gettingStartedItems.push({
-      title: data.title || slug,
-      href: `/docs/${slug}`,
-    });
-  }
+	for (const file of rootFiles) {
+		const filePath = path.join(DOCS_PATH, file);
+		const fileContent = fs.readFileSync(filePath, "utf8");
+		const { data } = matter(fileContent);
+		const slug = file.replace(/\.mdx$/, "");
 
-  if (gettingStartedItems.length > 0) {
-    sections.push({
-      title: "",
-      items: gettingStartedItems,
-    });
-  }
+		gettingStartedItems.push({
+			title: data.title || slug,
+			href: `/docs/${slug}`,
+		});
+	}
 
-  // Scan for subdirectories (e.g., components/)
-  const dirs = fs.readdirSync(DOCS_PATH).filter((file) => {
-    const fullPath = path.join(DOCS_PATH, file);
-    return fs.statSync(fullPath).isDirectory();
-  });
+	if (gettingStartedItems.length > 0) {
+		sections.push({
+			title: "",
+			items: gettingStartedItems,
+		});
+	}
 
-  for (const dir of dirs) {
-    const dirPath = path.join(DOCS_PATH, dir);
-    const items: NavItem[] = [];
+	// Scan for subdirectories (e.g., components/)
+	const dirs = fs.readdirSync(DOCS_PATH).filter((file) => {
+		const fullPath = path.join(DOCS_PATH, file);
+		return fs.statSync(fullPath).isDirectory();
+	});
 
-    // Read all MDX files in the directory
-    const files = fs
-      .readdirSync(dirPath)
-      .filter((file) => file.endsWith(".mdx"));
+	for (const dir of dirs) {
+		const dirPath = path.join(DOCS_PATH, dir);
+		const items: NavItem[] = [];
 
-    for (const file of files) {
-      const filePath = path.join(dirPath, file);
-      const fileContent = fs.readFileSync(filePath, "utf8");
-      const { data } = matter(fileContent);
-      const slug = file.replace(/\.mdx$/, "");
+		// Read all MDX files in the directory
+		const files = fs
+			.readdirSync(dirPath)
+			.filter((file) => file.endsWith(".mdx"));
 
-      items.push({
-        title: data.title || slug,
-        href: `/docs/${dir}/${slug}`,
-      });
-    }
+		for (const file of files) {
+			const filePath = path.join(dirPath, file);
+			const fileContent = fs.readFileSync(filePath, "utf8");
+			const { data } = matter(fileContent);
+			const slug = file.replace(/\.mdx$/, "");
 
-    if (items.length > 0) {
-      // Capitalize directory name for section title
-      const sectionTitle = dir
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+			items.push({
+				title: data.title || slug,
+				href: `/docs/${dir}/${slug}`,
+			});
+		}
 
-      sections.push({
-        title: sectionTitle,
-        items,
-      });
-    }
-  }
+		if (items.length > 0) {
+			// Capitalize directory name for section title
+			const sectionTitle = dir
+				.split("-")
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+				.join(" ");
 
-  return sections;
+			sections.push({
+				title: sectionTitle,
+				items,
+			});
+		}
+	}
+
+	return sections;
 }
 
 /**
  * Main navigation items (for navbar)
  */
 export const mainNav = [
-  {
-    title: "Documentation",
-    href: "/docs",
-  },
-  {
-    title: "Components",
-    href: "/docs/components",
-  },
+	{
+		title: "Documentation",
+		href: "/docs",
+	},
+	{
+		title: "Components",
+		href: "/docs/components",
+	},
 ];

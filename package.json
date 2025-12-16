@@ -8,6 +8,9 @@
     "build:pro": "USE_PRO_ICONS=true next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:biome": "biome check .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
     "type": "tsc --noEmit",
     "registry:build": "shadcn build"
   },

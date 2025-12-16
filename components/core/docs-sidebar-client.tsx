@@ -1,18 +1,22 @@
 "use client";
 
+import type React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
 	Download05Icon,
 	Home09Icon,
 	HugeiconsIcon,
+	MapsIcon,
 	ShapeCollectionIcon,
 	StatusIcon,
+	UserLove01Icon,
 } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { ComponentPreviewTooltip } from "@/registry/new-york/ui/component-preview-tooltip";
 import type { NavSection } from "@/types/nav-item";
+import { DiscordIcon, TwitterIcon } from "../icons/social-icons";
 import type { IconSvgElement } from "@hugeicons/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 interface DocsSidebarClientProps {
 	navigation: NavSection[];
@@ -24,6 +28,13 @@ const pageIcons: Record<string, IconSvgElement> = {
 	Components: ShapeCollectionIcon,
 	Installation: Download05Icon,
 	"Status - Beta": StatusIcon,
+	Roadmap: MapsIcon,
+	Contributors: UserLove01Icon,
+};
+
+const socialIcons: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
+	Twitter: TwitterIcon,
+	Discord: DiscordIcon,
 };
 
 export function DocsSidebarClient({ navigation }: DocsSidebarClientProps) {
@@ -51,9 +62,43 @@ export function DocsSidebarClient({ navigation }: DocsSidebarClientProps) {
 									{section.items.map((item) => {
 										const componentName = getComponentName(item.href);
 										const isComponentPage = item.href.includes("/components/");
+										const isExternalLink = item.href.startsWith("http");
 										const PageIcon = pageIcons[item.title];
+										const SocialIcon = socialIcons[item.title];
 
-										const linkElement = (
+										// Brand colors for social icons
+										const iconColor =
+											item.title === "Discord"
+												? "text-[#5865F2]"
+												: item.title === "Twitter"
+													? "text-[#1DA1F2]"
+													: "";
+
+										const linkContent = (
+											<>
+												{PageIcon ? (
+													<HugeiconsIcon
+														icon={PageIcon}
+														size={17}
+														className="text-foreground/60"
+													/>
+												) : SocialIcon ? (
+													<SocialIcon className={cn("w-4 h-4", iconColor)} />
+												) : null}
+												{item.title}
+											</>
+										);
+
+										const linkElement = isExternalLink ? (
+											<a
+												href={item.href}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="group flex w-fit items-center gap-1.5 text-sm rounded-md border border-transparent px-2 py-1 hover:bg-accent hover:text-accent-foreground font-medium text-foreground"
+											>
+												{linkContent}
+											</a>
+										) : (
 											<Link
 												href={item.href}
 												className={cn(
@@ -61,14 +106,7 @@ export function DocsSidebarClient({ navigation }: DocsSidebarClientProps) {
 													pathname === item.href ? "bg-accent" : "",
 												)}
 											>
-												{PageIcon && (
-													<HugeiconsIcon
-														icon={PageIcon}
-														size={17}
-														className="text-foreground/60"
-													/>
-												)}
-												{item.title}
+												{linkContent}
 											</Link>
 										);
 
