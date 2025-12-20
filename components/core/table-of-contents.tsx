@@ -3,6 +3,9 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Books02Icon, HugeiconsIcon } from "../icons";
+import { RaisedButton } from "@/registry/new-york/ui/raised-button";
+import Image from "next/image";
+import Link from "next/link";
 
 interface TocEntry {
 	id: string;
@@ -82,6 +85,33 @@ export function TableOfContents({ toc }: TableOfContentsProps) {
 					))}
 				</ul>
 			</nav>
+
+			<Link href={"https://heygaia.io"}>
+				<div className="p-3 rounded-2xl bg-muted mt-10 mr-4 space-y-1 hover:bg-muted-foreground/25 transition hover:-translate-y-2">
+					<Image
+						src={"/media/wallpapers/web.webp"}
+						alt="Website screenshot"
+						className="rounded-2xl mb-2"
+						width={1000}
+						height={1000}
+					/>
+					<div className="text-lg font-semibold">Meet GAIA</div>
+					<div className="text-xs text-muted-foreground font-light">
+						Your open-source, proactive personal AI assistant with 200+
+						integrations. GAIA combines todos, goals, calendar, and email into
+						one system, turns tasks into automated workflows, and completes work
+						instead of just tracking it. Open-source and self-hostable with
+						support for custom automations and multi-step workflows.
+					</div>
+					<RaisedButton
+						color="#00bbff"
+						size={"sm"}
+						className="text-black! rounded-xl mt-2 w-full"
+					>
+						Sign Up
+					</RaisedButton>
+				</div>
+			</Link>
 		</div>
 	);
 }
