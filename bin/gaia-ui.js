@@ -50,7 +50,7 @@ if (commandIndex !== -1) {
     // Skip flags (options starting with -)
     if (arg.startsWith('-')) continue;
     
-    // If it's not already a URL and not a path, convert to registry URL
+    // If it's not already a URL or path, convert to full registry URL
     if (!arg.startsWith('http') && !arg.includes('/')) {
       transformedArgs[i] = `${REGISTRY_URL}/${arg}.json`;
     }

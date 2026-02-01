@@ -54,6 +54,22 @@ You can also use the shadcn CLI directly with the full registry URL:
 npx shadcn@latest add https://ui.heygaia.io/r/navbar-menu.json
 ```
 
+Or configure the `@heygaia` namespace in your `components.json`:
+
+```json
+{
+  "registries": {
+    "@heygaia": "https://ui.heygaia.io/r/{name}.json"
+  }
+}
+```
+
+Then use namespace syntax:
+
+```bash
+npx shadcn@latest add @heygaia/navbar-menu
+```
+
 ### Base Components
 
 This registry uses standard shadcn/ui base components. Install them separately:
@@ -97,7 +113,7 @@ Quick start for contributors:
 1. Fork the repository
 2. Create your component in `registry/new-york/ui/`
 3. Add entry to `registry.json` and run `pnpm run registry:build`
-4. Test locally with `npx @heygaia/ui add [component-name] --url http://localhost:3000`
+4. Test locally with `npx shadcn@latest add http://localhost:3000/r/[component-name].json`
 5. Submit a pull request
 
 ### Development

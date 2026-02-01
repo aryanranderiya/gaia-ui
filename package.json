@@ -3,7 +3,8 @@
 	"description": "UI components specifically designed for building AI assistants and conversational interfaces built by the team behind the assistant",
 	"version": "0.3.1",
 	"bin": {
-		"gaia-ui": "./bin/gaia-ui.js"
+		"gaia-ui": "./bin/gaia-ui.js",
+		"heygaia-ui": "./bin/gaia-ui.js"
 	},
 	"files": [
 		"bin",
