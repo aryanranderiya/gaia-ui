@@ -10,6 +10,7 @@ export const siteConfig = {
 	tagline: "Open Source Components for AI Assistants",
 	links: {
 		github: "https://github.com/heygaia/ui",
+		gaia: "https://heygaia.io",
 		experienceCompany: "https://experience.heygaia.io",
 		twitter: "https://twitter.com/trygaia",
 		discord: "https://discord.heygaia.io",

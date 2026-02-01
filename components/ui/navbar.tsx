@@ -1,11 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import * as React from "react";
 import { CommandMenu } from "@/components/core/command-menu";
-import { HugeiconsIcon, StarIcon } from "@/components/icons";
+import { HugeiconsIcon, LinkSquare02Icon, StarIcon } from "@/components/icons";
 import { GitHub } from "@/components/icons/github";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +17,10 @@ import { useGitHubStars } from "@/hooks/use-github-stars";
 import { siteConfig } from "@/lib/siteConfig";
 import { cn } from "@/lib/utils";
 import type { NavSection } from "@/types/nav-item";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import * as React from "react";
 import { Kbd, KbdGroup } from "./kbd";
 
 interface NavbarProps {
@@ -58,7 +58,7 @@ export function Navbar({ navigation }: NavbarProps) {
                       navigationMenuTriggerStyle(),
                       pathname?.startsWith("/docs")
                         ? "text-foreground"
-                        : "text-foreground/60"
+                        : "text-foreground/60",
                     )}
                   >
                     Documentation
@@ -73,7 +73,7 @@ export function Navbar({ navigation }: NavbarProps) {
                       navigationMenuTriggerStyle(),
                       pathname?.startsWith("/docs/components")
                         ? "text-foreground"
-                        : "text-foreground/60"
+                        : "text-foreground/60",
                     )}
                   >
                     Components
@@ -86,10 +86,38 @@ export function Navbar({ navigation }: NavbarProps) {
                     href={siteConfig.links["feature-request"]}
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "text-foreground/60"
+                      "text-foreground/60",
                     )}
                   >
-                    New Component Request
+                    <div className="flex items-center gap-2">
+                      <span>Component Request</span>
+                      <HugeiconsIcon
+                        icon={LinkSquare02Icon}
+                        width={12}
+                        height={12}
+                        // className="absolute top-1 -right-1"
+                      />
+                    </div>
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={siteConfig.links.gaia}
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "text-foreground/60",
+                    )}
+                  >
+                    <div className="flex items-center gap-2 font-medium">
+                      <span>GAIA</span>
+                      <HugeiconsIcon
+                        icon={LinkSquare02Icon}
+                        width={12}
+                        height={12}
+                      />
+                    </div>
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
@@ -158,7 +186,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
           )}
           {...props}
         >

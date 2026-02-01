@@ -44,10 +44,26 @@ export function getNavigation(): NavSection[] {
 		});
 	}
 
-	// Add other root-level docs
+	// Add installation right after introduction
+	const installationPath = path.join(DOCS_PATH, "installation.mdx");
+	if (fs.existsSync(installationPath)) {
+		const fileContent = fs.readFileSync(installationPath, "utf8");
+		const { data } = matter(fileContent);
+		gettingStartedItems.push({
+			title: data.title || "Installation",
+			href: "/docs/installation",
+		});
+	}
+
+	// Add other root-level docs (excluding index and installation)
 	const rootFiles = fs
 		.readdirSync(DOCS_PATH)
-		.filter((file) => file.endsWith(".mdx") && file !== "index.mdx");
+		.filter(
+			(file) =>
+				file.endsWith(".mdx") &&
+				file !== "index.mdx" &&
+				file !== "installation.mdx",
+		);
 
 	for (const file of rootFiles) {
 		const filePath = path.join(DOCS_PATH, file);

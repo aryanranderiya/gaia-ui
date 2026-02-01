@@ -1,66 +1,30 @@
 ---
 title: Installation
-description: How to install and configure GAIA UI in your project.
+description: Add GAIA UI components to your project in seconds.
 ---
 
-## Requirements
+## Quick Install
 
-- Node.js 18.17 or later
-- Next.js 13.4 or later
-- Tailwind CSS
-
-## Initialize Your Project
-
-If you don't have a Next.js project yet, create one:
+Add any component directly to your project using the CLI:
 
 ```bash
-npx create-next-app@latest my-app --typescript --tailwind --app
-cd my-app
+npx shadcn@latest add https://ui.heygaia.io/r/raised-button.json
 ```
 
-## Install Dependencies
+That's it! The component is now in your project, ready to use.
 
-GAIA UI uses the following dependencies:
+## Prerequisites
 
-```bash
-npm install class-variance-authority clsx tailwind-merge
-npm install -D @types/node
-```
+GAIA UI works with any React project that has:
 
-### Install Hugeicons
+- **Tailwind CSS** configured
+- **Path aliases** set up (typically `@/*` pointing to your project root)
 
-First, install the React component package:
+Most modern setups already have these. If you're using Next.js, Vite with React, or any Tailwind-based starter, you're good to go.
 
-```bash
-npm install @hugeicons/react
-```
+### Utility Function
 
-Then, install the free icon pack:
-
-```bash
-npm install @hugeicons/core-free-icons
-```
-
-The free package `@hugeicons/core-free-icons` includes 4,600+ icons in the Stroke Rounded style. For more styles, consider upgrading to [Hugeicons Pro](https://hugeicons.com).
-
-## Configure Path Aliases
-
-Add the following to your `tsconfig.json`:
-
-```json
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    }
-  }
-}
-```
-
-## Add Utility Functions
-
-Create a `lib/utils.ts` file:
+Components use a `cn()` helper for class merging. If you don't have one yet, create `lib/utils.ts`:
 
 ```ts
 import { clsx, type ClassValue } from "clsx";
@@ -71,30 +35,52 @@ export function cn(...inputs: ClassValue[]) {
 }
 ```
 
-## Install Components
-
-Now you can start installing components. For example, to install the Raised Button:
+Install the dependencies:
 
 ```bash
-npx shadcn@latest add https://ui.gaia.com/r/raised-button.json
+npm install clsx tailwind-merge
 ```
 
-Or copy the component code directly from the [documentation](/docs/components/raised-button).
+### Icons (Optional)
 
-## Start Using Components
+Some components use [Hugeicons](https://hugeicons.com). Install if needed:
 
-Import and use components in your app:
+```bash
+npm install @hugeicons/react @hugeicons/core-free-icons
+```
+
+## Adding Components
+
+### Via CLI (Recommended)
+
+Every component has a one-line install command. Find the component you want in our [library](/docs/components/raised-button), then run:
+
+```bash
+npx shadcn@latest add https://ui.heygaia.io/r/[component-name].json
+```
+
+The CLI automatically:
+- Installs required dependencies
+- Installs any GAIA UI components it depends on
+- Places the component in your `components/ui` folder
+
+### Manual Copy
+
+Prefer to copy-paste? Each component page has a "Code" tab. Copy the code and save it to your project.
+
+## Using Components
+
+Import from your components folder:
 
 ```tsx
 import { RaisedButton } from "@/components/ui/raised-button";
 
-export default function App() {
-  return <RaisedButton>Click me</RaisedButton>;
+export default function Page() {
+  return <RaisedButton>Get Started</RaisedButton>;
 }
 ```
 
 ## Next Steps
 
 - Browse the [component library](/docs/components/raised-button)
-- Learn about [theming and customization](/docs/theming)
-- Join our [community](https://github.com/heygaia/ui)
+- Check out [examples and templates](/docs/gallery)
