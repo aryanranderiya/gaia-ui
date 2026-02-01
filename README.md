@@ -34,16 +34,24 @@ You won't find generic components that duplicate what's already available. If we
 
 ## Getting Started
 
-All components are compatible with the `shadcn` CLI, making installation effortless:
+Add components to your project:
+
+```bash
+npx @heygaia/ui add navbar-menu
+```
+
+Add multiple components at once:
+
+```bash
+npx @heygaia/ui add raised-button chat-bubble tool-calls-section
+```
+
+### Alternative: Using shadcn CLI
+
+You can also use the shadcn CLI directly with the full registry URL:
 
 ```bash
 npx shadcn@latest add https://ui.heygaia.io/r/navbar-menu.json
-```
-
-Or add individual components:
-
-```bash
-npx shadcn@latest add https://ui.heygaia.io/r/raised-button.json
 ```
 
 ### Base Components
@@ -89,7 +97,7 @@ Quick start for contributors:
 1. Fork the repository
 2. Create your component in `registry/new-york/ui/`
 3. Add entry to `registry.json` and run `pnpm run registry:build`
-4. Test locally with `npx shadcn@latest add http://localhost:3000/r/[component-name].json`
+4. Test locally with `npx @heygaia/ui add [component-name] --url http://localhost:3000`
 5. Submit a pull request
 
 ### Development

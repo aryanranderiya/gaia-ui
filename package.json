@@ -1,7 +1,15 @@
 {
-	"name": "@theexperiencecompany/gaia-ui",
+	"name": "@heygaia/ui",
 	"description": "UI components specifically designed for building AI assistants and conversational interfaces built by the team behind the assistant",
-	"version": "0.2.0",
+	"version": "0.3.1",
+	"bin": {
+		"gaia-ui": "./bin/gaia-ui.js"
+	},
+	"files": [
+		"bin",
+		"public/r",
+		"README.md"
+	],
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
