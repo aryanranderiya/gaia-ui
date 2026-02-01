@@ -1,4 +1,5 @@
 import { ComponentsGrid } from "@/components/core/components-grid";
+import { InfoSection } from "@/components/core/info-section";
 import { ArrowRight02Icon, HugeiconsIcon } from "@/components/icons";
 import { GitHub } from "@/components/icons/github";
 import { Footer } from "@/components/ui/footer";
@@ -86,29 +87,19 @@ export default function Home() {
 							</RaisedButton>
 						</Link>
 					</div>
-					<div className="space-y-1">
-						<h2 className="text-lg font-semibold">What&apos;s this for?</h2>
-						<p className="text-sm text-muted-foreground leading-relaxed">
-							We needed components that work well for conversational
-							interfaces—animated buttons, smooth transitions, accessible
-							controls. Instead of keeping them in our repo, we&apos;re sharing
-							them for anyone building similar stuff.
-						</p>
-					</div>
-					<div className="space-y-1">
-						<h2 className="text-lg font-semibold">What you&apos;ll find</h2>
-						<p className="text-sm text-muted-foreground leading-relaxed">
-							Components we use in production. Built with Radix UI and Tailwind
-							CSS. Copy the code and make it yours.
-						</p>
-					</div>
-					<div className="space-y-1 mb-10">
-						<h2 className="text-lg font-semibold">Why share?</h2>
-						<p className="text-sm text-muted-foreground leading-relaxed">
-							Open source has given us a lot. This is one of our way&apos;s of
-							contributing back.
-						</p>
-					</div>
+					<InfoSection
+						title="What's this for?"
+						description="We needed components that work well for conversational interfaces—animated buttons, smooth transitions, accessible controls. Instead of keeping them in our repo, we're sharing them for anyone building similar stuff."
+					/>
+					<InfoSection
+						title="What you'll find"
+						description="Components we use in production. Built with Radix UI and Tailwind CSS. Copy the code and make it yours."
+					/>
+					<InfoSection
+						title="Why share?"
+						description="Open source has given us a lot. This is one of our way's of contributing back."
+						className="mb-10"
+					/>
 
 					<ComponentsGrid components={components} />
 					<Footer />
