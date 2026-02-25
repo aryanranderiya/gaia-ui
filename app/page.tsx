@@ -64,6 +64,8 @@ export default function Home() {
             Introducing GAIA UI, a library for building beautiful ai agents.
           </div>
 
+        
+
           <div className="flex flex-wrap items-center justify-start gap-3 py-2">
             <Link href="/docs">
               <RaisedButton
@@ -107,10 +109,16 @@ export default function Home() {
             title="What's this for?"
             description="We needed components that work well for conversational interfaces - animated buttons, smooth transitions, accessible controls. Instead of keeping them in our repo, we're sharing them for anyone building similar stuff."
           />
+          <div>
+
           <InfoSection
             title="Design philosophy"
             description="We design for how products are actually used. Not for screenshots. Not for hype. Every decision is about reducing friction, keeping things predictable, and making interfaces feel natural without needing explanation."
           />
+            <p className="text-sm italic text-muted-foreground/80 mt-4">
+            "Design is not just what it looks like and feels like. Design is how it works." - Steve Jobs
+          </p>
+          </div>
           <InfoSection
             title="We obsess over experience"
             description="We care a lot about how things feel to use. Small details matter more than people think. Spacing, colors, motion, timing. Most of the time it's not about how something looks, it's about how it makes you feel. That's why some products just feel right and others don't."
