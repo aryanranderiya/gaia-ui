@@ -11,7 +11,6 @@ console.log(
 );
 
 const nextConfig: NextConfig = {
-	output: "export",
 	pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
 	images: {
 		dangerouslyAllowSVG: true,
@@ -74,3 +73,5 @@ const withMDX = createMDX({
 });
 
 export default withMDX(nextConfig);
+
+import('@opennextjs/cloudflare').then(m => m.initOpenNextCloudflareForDev());
