@@ -101,7 +101,7 @@ Join our growing community of users and contributors:
 ## Contributing
 
 <a href="https://github.com/theexperiencecompany/gaia-ui/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=theexperiencecompany/gaia-ui" />
+  <img alt="Contributors" src="https://contrib.rocks/image?repo=theexperiencecompany/gaia-ui" />
 </a>
 
 We welcome contributions! Whether you're fixing bugs, improving documentation, or adding new components, we'd love your help.
