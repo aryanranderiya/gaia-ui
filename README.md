@@ -2,9 +2,9 @@
 
 # GAIA UI - Component Registry
 
-[![Status](https://img.shields.io/badge/Status-Beta-00ba6d)](https://ui.heygaia.io) [![Documentation](https://img.shields.io/badge/Docs-00bbff?style=flat&logo=gitbook&logoColor=white)](https://ui.heygaia.io) [![Latest Release](https://img.shields.io/github/v/release/theexperiencecompany/ui?color=00bbff)](https://github.com/theexperiencecompany/ui/releases)
+[![Status](https://img.shields.io/badge/Status-Beta-00ba6d)](https://ui.heygaia.io) [![Documentation](https://img.shields.io/badge/Docs-00bbff?style=flat&logo=gitbook&logoColor=white)](https://ui.heygaia.io) [![Latest Release](https://img.shields.io/github/v/release/theexperiencecompany/gaia-ui?color=00bbff)](https://github.com/theexperiencecompany/gaia-ui/releases)
 
-[![Contributors](https://img.shields.io/github/contributors/theexperiencecompany/ui)](https://github.com/theexperiencecompany/ui/graphs/contributors) [![Open Issues](https://img.shields.io/github/issues/theexperiencecompany/ui)](https://github.com/theexperiencecompany/ui/issues) [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Contributors](https://img.shields.io/github/contributors/theexperiencecompany/gaia-ui)](https://github.com/theexperiencecompany/gaia-ui/graphs/contributors) [![Open Issues](https://img.shields.io/github/issues/theexperiencecompany/gaia-ui)](https://github.com/theexperiencecompany/gaia-ui/issues) [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 [![Discord](https://discord-live-members-count-badge.vercel.app/api/discord-members?guildId=585464664650022914&color=5c6af3&label=Discord)](https://discord.heygaia.io) [![Twitter Follow](https://img.shields.io/twitter/follow/trygaia?style=social)](https://x.com/intent/user?screen_name=trygaia)
 
@@ -100,8 +100,8 @@ Join our growing community of users and contributors:
 
 ## Contributing
 
-<a href="https://github.com/theexperiencecompany/ui/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=theexperiencecompany/ui" />
+<a href="https://github.com/theexperiencecompany/gaia-ui/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=theexperiencecompany/gaia-ui" />
 </a>
 
 We welcome contributions! Whether you're fixing bugs, improving documentation, or adding new components, we'd love your help.
@@ -143,11 +143,11 @@ pnpm run type
 
 ## Star History
 
-<a href="https://www.star-history.com/#theexperiencecompany/ui&type=date&legend=top-left">
+<a href="https://www.star-history.com/#theexperiencecompany/gaia-ui&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=theexperiencecompany/ui&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=theexperiencecompany/ui&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=theexperiencecompany/ui&type=date&legend=top-left" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=theexperiencecompany/gaia-ui&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=theexperiencecompany/gaia-ui&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=theexperiencecompany/gaia-ui&type=date&legend=top-left" />
  </picture>
 </a>
 
