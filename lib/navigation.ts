@@ -5,6 +5,19 @@ import type { NavItem, NavSection } from "@/types/nav-item";
 
 const DOCS_PATH = path.join(process.cwd(), "content/docs");
 
+// Display order for component categories; uncategorized files fall back to the
+// directory-name section, unknown categories are appended alphabetically
+const CATEGORY_ORDER = [
+	"Charts",
+	"Chat & AI",
+	"Cards",
+	"Buttons",
+	"Files & Media",
+	"Menus & Navigation",
+	"Overlays & Tooltips",
+	"Display",
+];
+
 /**
  * Get navigation items by scanning the docs directory and reading frontmatter
  */
@@ -96,9 +109,17 @@ export function getNavigation(): NavSection[] {
 
 	for (const dir of dirs) {
 		const dirPath = path.join(DOCS_PATH, dir);
-		const items: NavItem[] = [];
 
-		// Read all MDX files in the directory
+		// Capitalize directory name, used as the fallback section title
+		const fallbackTitle = dir
+			.split("-")
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(" ");
+
+		// Group files by frontmatter category; uncategorized files land in the
+		// directory-name section
+		const grouped = new Map<string, NavItem[]>();
+
 		const files = fs
 			.readdirSync(dirPath)
 			.filter((file) => file.endsWith(".mdx"));
@@ -109,23 +130,28 @@ export function getNavigation(): NavSection[] {
 			const { data } = matter(fileContent);
 			const slug = file.replace(/\.mdx$/, "");
 
-			items.push({
+			const category = data.category || fallbackTitle;
+			if (!grouped.has(category)) grouped.set(category, []);
+			grouped.get(category)?.push({
 				title: data.title || slug,
 				href: `/docs/${dir}/${slug}`,
 			});
 		}
 
-		if (items.length > 0) {
-			// Capitalize directory name for section title
-			const sectionTitle = dir
-				.split("-")
-				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-				.join(" ");
+		const categories = [...grouped.keys()].sort((a, b) => {
+			const ia = CATEGORY_ORDER.indexOf(a);
+			const ib = CATEGORY_ORDER.indexOf(b);
+			if (ia === -1 && ib === -1) return a.localeCompare(b);
+			if (ia === -1) return 1;
+			if (ib === -1) return -1;
+			return ia - ib;
+		});
 
-			sections.push({
-				title: sectionTitle,
-				items,
-			});
+		for (const category of categories) {
+			const items = grouped.get(category);
+			if (items && items.length > 0) {
+				sections.push({ title: category, items });
+			}
 		}
 	}
 

@@ -35,10 +35,9 @@ export default function Home() {
   const softwareSchema = generateSoftwareSchema();
 
   const navigation = getNavigation();
-  const componentsSection = navigation.find(
-    (section) => section.title === "Components",
-  );
-  const components = componentsSection?.items || [];
+  const components = navigation
+    .flatMap((section) => section.items)
+    .filter((item) => item.href.startsWith("/docs/components/"));
 
   return (
     <>
