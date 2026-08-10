@@ -1,4 +1,5 @@
 import { DocsSidebar } from "@/components/core/docs-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function DocsLayout({
 	children,
@@ -7,10 +8,16 @@ export default function DocsLayout({
 }) {
 	return (
 		<div className="border-b">
-			<div className="items-start px-6 md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-6">
+			<SidebarProvider className="min-h-[calc(100svh-3.5rem)]">
 				<DocsSidebar />
-				{children}
-			</div>
+				<div className="min-w-0 flex-1 px-6">
+					<div className="sticky top-14 z-20 -mx-6 flex items-center gap-1 border-b bg-background px-4 py-2 md:hidden">
+						<SidebarTrigger />
+						<span className="text-sm text-muted-foreground">Menu</span>
+					</div>
+					{children}
+				</div>
+			</SidebarProvider>
 		</div>
 	);
 }
