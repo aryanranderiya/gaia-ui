@@ -37,12 +37,12 @@ function ChartCard({
 	children: React.ReactNode;
 	dataPoints?: number;
 }) {
-	const width =
+	const maxWidth =
 		dataPoints > 0 ? Math.min(768, Math.max(300, dataPoints * 80)) : undefined;
 	return (
 		<Card
-			className="max-w-3xl"
-			style={width ? { width } : { width: "100%" }}
+			className="w-full max-w-3xl"
+			style={maxWidth ? { maxWidth } : undefined}
 		>
 			{(title || description) && (
 				<CardHeader className="pb-0">
