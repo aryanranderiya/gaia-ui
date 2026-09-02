@@ -225,9 +225,10 @@ function buildDots(
 	cssH: number,
 	cell: number,
 ): Dot[] {
-	// Well under cell/2 so neighboring dots never touch: the grid must read
-	// as distinct dots with air between them, not a solid halftone mass.
-	const maxR = cell * 0.36;
+	// High fill ratio: with the fine grid the letters need dense ink to read
+	// bright through the overlay blend; the sub-cell gap still keeps the dot
+	// texture visible (this matches the landing page render).
+	const maxR = cell * 0.42;
 	const cols = Math.floor(cssW / cell);
 	const rows = Math.floor(raster.height / cell);
 	const dots: Dot[] = [];
@@ -259,7 +260,7 @@ function buildDots(
 
 /** Draw every dot as one batched path. */
 function drawDots(ctx: CanvasRenderingContext2D, dots: Dot[]): void {
-	ctx.fillStyle = "rgba(255,255,255,0.82)";
+	ctx.fillStyle = "rgba(255,255,255,0.9)";
 	ctx.beginPath();
 	for (const dot of dots) {
 		ctx.moveTo(dot.x + dot.radius, dot.y);
@@ -506,7 +507,10 @@ export function FooterWordmark({
 			if (!raster) return;
 
 			const cssH = raster.height;
-			const cell = Math.max(6, Math.min(9, cssW / 165));
+			// Scale the grid with width so narrow renders keep the same fine
+			// halftone texture as the full-width landing page instead of a
+			// coarse blocky grid (aim for 20+ dot rows per letter).
+			const cell = Math.max(4, Math.min(9, cssW / 150));
 			const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
 			canvas.width = Math.round(cssW * dpr);
 			canvas.height = Math.round(cssH * dpr);

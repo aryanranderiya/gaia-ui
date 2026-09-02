@@ -97,6 +97,14 @@ Only commit the `public/r/<name>.json` you added plus the footer entry in `publi
 
 Create `components/previews/<name>/default.tsx` with realistic demo data (this is where GAIA-branded content is fine). Add variant previews only if the component has real variants. Previews auto-register by path; no index to update.
 
+**Port the brand assets too, not just the code.** The preview must look like the component does on the GAIA landing page, and the code alone rarely gets you there. Before writing the preview, hunt down every asset the original render depends on and bring the real one over:
+
+- **Images and wallpapers.** If the original references anything under `apps/web/public` (wallpapers, logos, textures), copy the exact file into gaia-ui's `public/` at a matching path (`git show origin/master:apps/web/public/<path> > public/<path>`) and use it in the preview (for example `backgroundSrc`). Never substitute a CSS-gradient approximation when the original uses an image; a hand-tuned gradient will not match.
+- **Fonts.** Resolve what the original's font utility actually maps to (check `--font-*` variables in `apps/web/src/app/styles/globals.css` and `apps/web/src/app/fonts/`); gaia's `font-serif` is Aeonik, not a serif. If gaia-ui does not load that face, copy the woff2 into `app/fonts/`, register it with `next/font/local` (see `app/fonts/aeonik.ts`), and pass it to the preview. The component itself stays font-agnostic via a `fontClassName`-style prop.
+- **Colors.** Trace hardcoded colors back to what actually paints on screen (a wallpaper's pixels, a brand token), and expose them as props with the real value as the default.
+
+Then compare your rendered preview against the live landing page (or a recording of it) side by side before calling the port done. If it does not read as the same thing, an asset is still missing.
+
 ### 7. Docs
 
 Create `content/docs/components/<name>.mdx`. Copy the structure of an existing doc (`pricing-card.mdx` is the reference) and keep it tight:

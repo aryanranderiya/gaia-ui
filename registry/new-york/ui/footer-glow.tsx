@@ -84,7 +84,7 @@ export function FooterGlow({
 					text={text}
 					logoSrc={logoSrc}
 					fontClassName={fontClassName}
-					className="mx-auto w-[78%] max-w-5xl"
+					className="mx-auto w-[88%] max-w-6xl"
 				/>
 				{children}
 			</div>
