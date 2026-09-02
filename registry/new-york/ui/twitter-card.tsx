@@ -24,7 +24,12 @@ export interface TwitterCardProps {
 	likes?: number;
 	retweets?: number;
 	replies?: number;
+	/** Image attachment. Doubles as the poster frame when `video` is set. */
 	media?: string;
+	/** Video attachment (mp4). Autoplays muted in a loop, like on X. */
+	video?: string;
+	/** URL of the post on X. Links the timestamp and the share button. */
+	href?: string;
 	quoted?: {
 		author: {
 			name: string;
@@ -65,6 +70,8 @@ export const TwitterCard: FC<TwitterCardProps> = ({
 	retweets = 0,
 	replies = 0,
 	media,
+	video,
+	href,
 	quoted,
 	className,
 }) => {
@@ -102,7 +109,19 @@ export const TwitterCard: FC<TwitterCardProps> = ({
 						<div className="flex items-center gap-1 text-zinc-500 dark:text-zinc-400">
 							<span className="text-sm">@{author.handle}</span>
 							<span>·</span>
-							<span className="text-sm">{formatTimestamp(timestamp)}</span>
+							{href ? (
+								<a
+									href={href}
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label="View post on X"
+									className="text-sm hover:underline"
+								>
+									{formatTimestamp(timestamp)}
+								</a>
+							) : (
+								<span className="text-sm">{formatTimestamp(timestamp)}</span>
+							)}
 						</div>
 					</div>
 				</div>
@@ -123,15 +142,31 @@ export const TwitterCard: FC<TwitterCardProps> = ({
 			</div>
 
 			{/* Media */}
-			{media && (
+			{video ? (
 				<div className="mt-3 overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800">
-					{/** biome-ignore lint/performance/noImgElement: no specific height and width */}
-					<img
-						src={media}
-						alt="Tweet media"
+					{/** biome-ignore lint/a11y/useMediaCaption: decorative product clip, muted */}
+					<video
+						src={video}
+						poster={media}
+						autoPlay
+						muted
+						loop
+						playsInline
+						controls
 						className="w-full object-cover max-h-80"
 					/>
 				</div>
+			) : (
+				media && (
+					<div className="mt-3 overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800">
+						{/** biome-ignore lint/performance/noImgElement: no specific height and width */}
+						<img
+							src={media}
+							alt="Tweet media"
+							className="w-full object-cover max-h-80"
+						/>
+					</div>
+				)
 			)}
 
 			{/* Quoted tweet */}
@@ -193,13 +228,25 @@ export const TwitterCard: FC<TwitterCardProps> = ({
 					<HugeiconsIcon icon={FavouriteIcon} size={20} />
 					{likes > 0 && <span className="text-sm">{formatNumber(likes)}</span>}
 				</button>
-				<button
-					type="button"
-					className="rounded-full p-2 hover:bg-sky-50 hover:text-blue-500 dark:hover:bg-sky-900/20"
-					aria-label="Share"
-				>
-					<HugeiconsIcon icon={Share01Icon} size={20} />
-				</button>
+				{href ? (
+					<a
+						href={href}
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="Open post on X"
+						className="rounded-full p-2 hover:bg-sky-50 hover:text-blue-500 dark:hover:bg-sky-900/20"
+					>
+						<HugeiconsIcon icon={Share01Icon} size={20} />
+					</a>
+				) : (
+					<button
+						type="button"
+						className="rounded-full p-2 hover:bg-sky-50 hover:text-blue-500 dark:hover:bg-sky-900/20"
+						aria-label="Share"
+					>
+						<HugeiconsIcon icon={Share01Icon} size={20} />
+					</button>
+				)}
 			</div>
 		</div>
 	);

@@ -8,12 +8,14 @@ import { Download01Icon, HugeiconsIcon } from "@/components/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { ComponentPreviewTooltip } from "@/registry/new-york/ui/component-preview-tooltip";
+import { TwitterCard } from "@/registry/new-york/ui/twitter-card";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
 	return {
 		Link,
 		ComponentPreview,
 		ComponentPreviewTooltip,
+		TwitterCard,
 		InstallCommand,
 		SourceCode,
 		Download: () => <HugeiconsIcon icon={Download01Icon} size={16} />,
