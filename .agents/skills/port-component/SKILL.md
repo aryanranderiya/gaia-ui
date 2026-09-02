@@ -81,9 +81,17 @@ Most mono repo components are coupled to the app. They must ship as clean open-s
 - Theme-aware CSS variables where the design allows; a deliberately dark component (glow footer) may keep its palette but must say so in its docs.
 - No em dashes anywhere: not in code comments, not in docs, not in descriptions. Use commas, colons, or parentheses.
 
-### 5. Register it
+### 5. Register and build
 
 Add an entry to `registry.json` items. Edit the file directly and match the existing tab formatting exactly (never round-trip the whole file through a formatter or script). Include `dependencies` only for npm packages the component actually imports, `registryDependencies` for gaia-ui components it uses, and every file in `files`.
+
+Then build the registry artifact and commit it with the rest:
+
+```bash
+pnpm registry:build     # shadcn build, generates public/r/<name>.json
+```
+
+Only commit the `public/r/<name>.json` you added plus the footer entry in `public/r/registry.json`. If the local shadcn version reformats every other `public/r/*.json`, revert those unrelated files and match the existing format in yours (for example the top-level `"type": "registry:ui"` field).
 
 ### 6. Preview
 
@@ -106,7 +114,6 @@ Run all of these and fix failures:
 ```bash
 pnpm type                 # tsc --noEmit
 pnpm lint                 # biome check
-pnpm registry:build       # shadcn build, regenerates public/r/<name>.json
 ```
 
 Then confirm:
@@ -114,11 +121,36 @@ Then confirm:
 - `public/r/<name>.json` exists after the registry build and contains all files.
 - The component appears in the docs sidebar: start `pnpm dev`, or verify the mdx frontmatter category matches `CATEGORY_ORDER` in `lib/navigation.ts`.
 - The preview renders: hit `/docs/components/<name>` in the dev server and check the browser for runtime errors, or at minimum confirm the preview imports resolve in `pnpm type`.
+- Take a screenshot of the rendered component (used in the PR, step 9). With the dev server on a port, capture the demo element with playwright and the system chromium:
+
+```js
+// run from a repo that has playwright installed (~/work/gaia works)
+import { chromium } from "playwright";
+const b = await chromium.launch({ executablePath: "/usr/bin/chromium" });
+const page = await b.newPage({ viewport: { width: 1440, height: 1000 }, colorScheme: "dark" });
+await page.goto("http://localhost:<port>/docs/components/<name>", { waitUntil: "networkidle" });
+await page.waitForTimeout(3000); // let canvases/animations draw
+await page.locator("main <demo-selector>").first().screenshot({ path: "/tmp/<name>.png" });
+await b.close();
+```
+
+  Eyeball the screenshot before using it: wrong logo, broken layout, or empty canvas means something is off.
 - Run through the AGENTS.md checklist (dark mode, keyboard, ARIA, reduced motion, exported types).
 
 ### 9. Ship
 
 Unless the user says otherwise: branch (`sanku/<name>-component`), commit, push, and open a PR on gaia-ui with `gh pr create`, summarizing what was ported, from where (source path and ref), and what was changed to make it reusable.
+
+Include the screenshot in the PR description. Push it to the `pr-assets` branch and reference the raw URL:
+
+```bash
+git checkout pr-assets 2>/dev/null || git checkout --orphan pr-assets
+# copy image in, commit only the image, push, then switch back
+```
+
+Then embed: `![<name> component](https://raw.githubusercontent.com/theexperiencecompany/gaia-ui/pr-assets/<name>.png)`
+
+If `gh` hangs through the mise shim, call the real binary at `~/.local/share/mise/installs/gh/<version>/gh_*/bin/gh`.
 
 ## Notes
 

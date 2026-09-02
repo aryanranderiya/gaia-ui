@@ -225,7 +225,9 @@ function buildDots(
 	cssH: number,
 	cell: number,
 ): Dot[] {
-	const maxR = cell * 0.44;
+	// Well under cell/2 so neighboring dots never touch: the grid must read
+	// as distinct dots with air between them, not a solid halftone mass.
+	const maxR = cell * 0.36;
 	const cols = Math.floor(cssW / cell);
 	const rows = Math.floor(raster.height / cell);
 	const dots: Dot[] = [];
