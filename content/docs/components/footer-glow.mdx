@@ -1,0 +1,97 @@
+---
+category: Menus & Navigation
+title: "Footer Glow"
+description: "A glowing footer backdrop with an interactive halftone wordmark."
+---
+
+<ComponentPreview name="footer-glow/default" />
+
+## Usage in Gaia
+
+The glowing wordmark section at the bottom of the GAIA landing page footer. The halftone wordmark renders the logo and lettering as a dot grid that swells around the cursor and ripples on click.
+
+## Installation
+
+```package-install
+npx shadcn@latest add "https://ui.heygaia.io/r/footer-glow"
+```
+
+## Usage
+
+```tsx
+import { FooterGlow } from "@/components/ui/footer-glow";
+
+export default function Example() {
+  return (
+    <footer>
+      {/* your own link columns, legal text, etc. */}
+      <FooterGlow text="ACME" logoSrc="/logo.webp" />
+    </footer>
+  );
+}
+```
+
+## Examples
+
+### With a bottom bar over the glow
+
+Anything passed as `children` renders over the glow, below the wordmark — a status badge, social links, copyright.
+
+```tsx
+<FooterGlow text="ACME" logoSrc="/logo.webp">
+  <div className="mx-auto flex w-full max-w-7xl items-center justify-between">
+    <StatusBadge />
+    <SocialLinks />
+  </div>
+</FooterGlow>
+```
+
+### Custom glow or wallpaper background
+
+```tsx
+// CSS glow (default), tinted to your brand color
+<FooterGlow text="ACME" glowColor="#7c3aed" />
+
+// Or a wallpaper image
+<FooterGlow text="ACME" backgroundSrc="/images/footer-glow.webp" />
+```
+
+### Standalone wordmark
+
+The halftone wordmark ships as its own component if you only want the dot-grid lockup without the glow.
+
+```tsx
+import { FooterWordmark } from "@/components/ui/footer-wordmark";
+
+<FooterWordmark text="ACME" logoSrc="/logo.webp" />
+```
+
+## Props
+
+### FooterGlow
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | - | Word rendered as the halftone dot grid |
+| `logoSrc` | `string` | - | Image mark composed left of the text |
+| `backgroundSrc` | `string` | - | Wallpaper image behind the glow |
+| `glowColor` | `string` | `"#00a3ff"` | Accent of the fallback CSS glow |
+| `fontClassName` | `string` | `"font-serif font-bold"` | Font classes for the wordmark lettering |
+| `children` | `ReactNode` | - | Content over the glow, below the wordmark |
+| `className` | `string` | - | Additional CSS classes |
+
+### FooterWordmark
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | - | Word rendered as the halftone dot grid |
+| `logoSrc` | `string` | - | Image mark composed left of the text |
+| `aspectRatio` | `string` | `"23 / 4"` | Reserved ratio before the first draw |
+| `fontClassName` | `string` | `"font-serif font-bold"` | Classes on the font probe |
+| `className` | `string` | - | Additional CSS classes |
+
+## Notes
+
+- Designed dark: the glow and blend modes assume a dark page beneath.
+- The wordmark is decorative and stays static when `prefers-reduced-motion` is set.
+- The top edge fades into `--background` so the glow never reads as a hard line against the content above it.
