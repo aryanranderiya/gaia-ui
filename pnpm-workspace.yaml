@@ -1,3 +1,9 @@
+# Single-package repo: the root is the only "workspace package". Some pnpm
+# versions (e.g. 10.11, used by Cloudflare Workers Builds) hard-error if this
+# file exists without a packages field.
+packages:
+  - "."
+
 allowBuilds:
   '@heroui/shared-utils': true
   '@tailwindcss/oxide': true
